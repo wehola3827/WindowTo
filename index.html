@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WindowTo - Support & Privacy</title>
+    <style>
+        :root {
+            --primary-color: #0071e3;
+            --text-color: #1d1d1f;
+            --bg-color: #f5f5f7;
+            --card-bg: #ffffff;
+            --border-color: #d2d2d7;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Myriad Set Pro", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            line-height: 1.5;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 18px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        .app-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .app-logo {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #0575e6, #00f2fe);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(5, 117, 230, 0.3);
+        }
+        h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 700;
+        }
+        p.subtitle {
+            margin: 5px 0 0 0;
+            color: #86868b;
+            font-size: 14px;
+        }
+        .lang-switch {
+            display: flex;
+            gap: 5px;
+            background: #e8e8ed;
+            padding: 4px;
+            border-radius: 8px;
+        }
+        .lang-btn {
+            background: none;
+            border: none;
+            padding: 6px 12px;
+            font-size: 13px;
+            font-weight: 500;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #515154;
+        }
+        .lang-btn.active {
+            background: white;
+            color: var(--text-color);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        h2 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 30px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+        .faq-item {
+            margin-bottom: 15px;
+        }
+        .faq-q {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        .faq-a {
+            color: #515154;
+            font-size: 15px;
+        }
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .btn-contact {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 22px;
+            border-radius: 8px;
+            font-weight: 500;
+            margin-top: 15px;
+            transition: background 0.2s;
+        }
+        .btn-contact:hover {
+            background-color: #0077ed;
+            text-decoration: none;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 12px;
+            color: #86868b;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div class="app-info">
+            <!-- 临时纯CSS图标，您可以后续替换为您App的真正图标 -->
+            <div class="app-logo">W</div>
+            <div>
+                <h1>WindowTo</h1>
+                <p class="subtitle lang-el" id="app-desc">A More Efficient Way to Manage Windows</p>
+            </div>
+        </div>
+        <div class="lang-switch">
+            <button class="lang-btn active" id="btn-zh" onclick="setLang('zh')">中文</button>
+            <button class="lang-btn" id="btn-en" onclick="setLang('en')">English</button>
+        </div>
+    </header>
+
+    <!-- 中文内容 -->
+    <div id="content-zh" class="lang-section">
+        <h2>技术支持 & 反馈</h2>
+        <p>如果您在使用 <strong>WindowTo</strong> 的过程中遇到任何问题，或对软件有任何改进建议，欢迎随时联系我们。我们将尽力为您提供支持！</p>
+        <p><strong>联系邮箱：</strong> <a href="mailto:your_email@domain.com">your_email@domain.com</a></p>
+        <a class="btn-contact" href="mailto:your_email@domain.com">发送邮件联系我们</a>
+
+        <h2>常见问题解答 (FAQ)</h2>
+        <div class="faq-item">
+            <div class="faq-q">1. 为什么 WindowTo 需要“辅助功能”权限？</div>
+            <div class="faq-a">由于 macOS 的安全机制，任何用于调整其他应用程序窗口大小和位置的工具，都必须获得系统安全设置中的“辅助功能（Accessibility）”授权。WindowTo 仅利用该权限执行窗口调整操作，绝不会通过此权限收集或传输您的任何个人隐私。</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-q">2. 软件运行有什么系统版本要求？</div>
+            <div class="faq-a">WindowTo 推荐在 macOS 12.0 及以上版本运行，以便获得最佳的兼容性与流畅度。</div>
+        </div>
+
+        <h2>隐私政策说明</h2>
+        <p><strong>更新日期：</strong> 2026年7月</p>
+        <p>我们深知隐私对您的重要性。WindowTo 在设计之初就遵循极简与安全的原则：</p>
+        <ul>
+            <li><strong>不收集数据：</strong> 我们不会收集、存储、上传或共享您的任何个人数据、设备信息、窗口布局或任何隐私敏感内容。</li>
+            <li><strong>无网络传输：</strong> 本应用的所有窗口管理及计算均完全在您的本地设备上进行，应用不会在后台与任何外部服务器建立连接。</li>
+            <li><strong>第三方 SDK：</strong> 本应用未集成任何第三方统计、广告、分析等可能会收集用户隐私的第三方 SDK。</li>
+        </ul>
+        <p>如果您对本隐私政策有任何疑问，可通过上述支持邮箱与我们沟通。</p>
+    </div>
+
+    <!-- 英文内容 -->
+    <div id="content-en" class="lang-section" style="display: none;">
+        <h2>Support & Feedback</h2>
+        <p>If you encounter any issues while using <strong>WindowTo</strong>, or have any suggestions for improvement, please feel free to contact us. We will do our best to assist you!</p>
+        <p><strong>Email:</strong> <a href="mailto:your_email@domain.com">your_email@domain.com</a></p>
+        <a class="btn-contact" href="mailto:your_email@domain.com">Email Us</a>
+
+        <h2>Frequently Asked Questions (FAQ)</h2>
+        <div class="faq-item">
+            <div class="faq-q">1. Why does WindowTo require "Accessibility" permission?</div>
+            <div class="faq-a">Due to macOS security restrictions, any utility designed to resize and reposition windows of other applications must be granted "Accessibility" authorization in system preferences. WindowTo only uses this permission to perform window adjustments and will never collect or transmit any of your personal data.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-q">2. What are the system requirements?</div>
+            <div class="faq-a">WindowTo is recommended for macOS 12.0 or later to ensure the best performance and compatibility.</div>
+        </div>
+
+        <h2>Privacy Policy</h2>
+        <p><strong>Last Updated:</strong> July 2026</p>
+        <p>We deeply value your privacy. WindowTo is built from the ground up with simplicity and security in mind:</p>
+        <ul>
+            <li><strong>No Data Collection:</strong> We do not collect, store, upload, or share any of your personal data, device information, window configurations, or private content.</li>
+            <li><strong>Local Processing:</strong> All window management operations and calculations are processed entirely locally on your device. The app does not connect to any external servers.</li>
+            <li><strong>No Third-Party SDKs:</strong> This app does not integrate any third-party advertising, tracking, or analytical SDKs that could potentially collect user data.</li>
+        </ul>
+        <p>If you have any questions regarding this Privacy Policy, please contact us via the support email above.</p>
+    </div>
+</div>
+
+<div class="footer">
+    <p>© 2026 WindowTo. All rights reserved.</p>
+</div>
+
+<script>
+    function setLang(lang) {
+        // 切换内容显示
+        if (lang === 'zh') {
+            document.getElementById('content-zh').style.display = 'block';
+            document.getElementById('content-en').style.display = 'none';
+            document.getElementById('btn-zh').classList.add('active');
+            document.getElementById('btn-en').classList.remove('active');
+            document.getElementById('app-desc').innerText = '更高效的窗口管理方式';
+        } else {
+            document.getElementById('content-zh').style.display = 'none';
+            document.getElementById('content-en').style.display = 'block';
+            document.getElementById('btn-zh').classList.remove('active');
+            document.getElementById('btn-en').classList.add('active');
+            document.getElementById('app-desc').innerText = 'A More Efficient Way to Manage Windows';
+        }
+    }
+</script>
+</body>
+</html>
