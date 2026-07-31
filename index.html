@@ -10,32 +10,40 @@
             --bg-color: #f5f5f7;
             --bg-gradient: radial-gradient(circle at 50% -20%, rgba(88, 86, 214, 0.12) 0%, rgba(245, 245, 247, 0) 50%);
             --card-bg: rgba(255, 255, 255, 0.75);
+            --nav-bg: rgba(255, 255, 255, 0.7);
             --text-color: #1d1d1f;
             --text-secondary: #515154;
-            --border-color: rgba(0, 0, 0, 0.04);
+            --border-color: rgba(0, 0, 0, 0.05);
             --shadow-color: rgba(0, 0, 0, 0.04);
             --btn-bg: #1d1d1f;
             --btn-text: #ffffff;
+            --nav-link-active: #5856D6;
         }
 
-        /* 自动适应 macOS 系统暗黑模式 */
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg-color: #0d0d0f;
-                --bg-gradient: radial-gradient(circle at 50% -20%, rgba(88, 86, 214, 0.22) 0%, rgba(13, 13, 15, 0) 65%);
-                --card-bg: rgba(26, 26, 30, 0.8);
-                --text-color: #f5f5f7;
-                --text-secondary: #a1a1a6;
-                --border-color: rgba(255, 255, 255, 0.06);
-                --shadow-color: rgba(0, 0, 0, 0.3);
-                --btn-bg: #f5f5f7;
-                --btn-text: #1d1d1f;
-            }
+        /* 暗黑模式配置 */
+        html.dark {
+            --bg-color: #0d0d0f;
+            --bg-gradient: radial-gradient(circle at 50% -20%, rgba(88, 86, 214, 0.22) 0%, rgba(13, 13, 15, 0) 65%);
+            --card-bg: rgba(26, 26, 30, 0.8);
+            --nav-bg: rgba(13, 13, 15, 0.7);
+            --text-color: #f5f5f7;
+            --text-secondary: #a1a1a6;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --shadow-color: rgba(0, 0, 0, 0.3);
+            --btn-bg: #f5f5f7;
+            --btn-text: #1d1d1f;
+            --nav-link-active: #5856D6;
         }
 
-        /* 多语言节点群控制 */
+        /* 纯 CSS 无闪烁语言控制 */
         html[lang="zh"] .en-only { display: none !important; }
         html[lang="en"] .zh-only { display: none !important; }
+
+        html {
+            scroll-behavior: smooth;
+            /* 关键：防止吸顶导航栏遮挡滚动定位 */
+            scroll-padding-top: 86px; 
+        }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -45,77 +53,181 @@
             background-image: var(--bg-gradient);
             background-attachment: fixed;
             margin: 0;
-            padding: 40px 20px;
+            padding: 0 0 40px 0;
             -webkit-font-smoothing: antialiased;
         }
 
-        .container {
-            max-width: 680px;
+        /* === 1. 毛玻璃吸顶导航栏 === */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            width: 100%;
+            background: var(--nav-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            transition: background 0.3s, border-color 0.3s;
+        }
+
+        .nav-container {
+            max-width: 800px;
             margin: 0 auto;
-        }
-
-        /* 顶部导航与多语言分段选择器 */
-        header {
+            padding: 12px 20px;
             display: flex;
+            align-items: center;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 40px;
         }
 
-        .app-meta {
+        /* 左侧品牌 */
+        .nav-brand {
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--text-color);
+            transition: opacity 0.2s;
         }
 
-        .app-logo {
-            width: 58px;
-            height: 58px;
-            border-radius: 14px;
-            box-shadow: 0 4px 14px var(--shadow-color);
+        .nav-brand:hover {
+            opacity: 0.85;
+        }
+
+        .nav-logo {
+            width: 28px;
+            height: 28px;
+            border-radius: 7px;
             object-fit: cover;
             border: 1px solid var(--border-color);
         }
 
-        h1 {
-            margin: 0;
-            font-size: 22px;
+        .nav-title {
+            font-size: 15px;
             font-weight: 700;
-            letter-spacing: -0.5px;
+            letter-spacing: -0.2px;
         }
 
-        .subtitle {
-            margin: 3px 0 0 0;
-            font-size: 13px;
-            color: var(--text-secondary);
-        }
-
-        /* iOS 风格分段选择器 */
-        .segmented-control {
+        /* 中间菜单链接 */
+        .nav-links {
             display: flex;
-            background: rgba(120, 120, 128, 0.12);
-            padding: 3px;
-            border-radius: 9px;
-            border: none;
+            gap: 20px;
         }
 
-        .segment-btn {
+        .nav-link {
+            font-size: 13.5px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: var(--text-color);
+        }
+
+        /* 右侧控制键 */
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .control-btn {
+            background: none;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s, border-color 0.2s;
+        }
+
+        .control-btn:hover {
+            background: rgba(120, 120, 128, 0.1);
+            border-color: var(--text-secondary);
+        }
+
+        /* === 2. 下拉语言菜单设计 === */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: calc(100% + 8px);
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border-radius: 10px;
+            box-shadow: 0 10px 25px var(--shadow-color);
+            padding: 6px;
+            min-width: 120px;
+            z-index: 1010;
+        }
+
+        .dropdown-menu.show {
+            display: block;
+        }
+
+        .dropdown-item {
             background: none;
             border: none;
-            padding: 6px 14px;
-            font-size: 12px;
-            font-weight: 500;
-            border-radius: 7px;
+            color: var(--text-color);
+            padding: 8px 12px;
+            text-align: left;
+            width: 100%;
+            font-size: 13px;
+            border-radius: 6px;
             cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            color: var(--text-secondary);
+            transition: background 0.15s, color 0.15s;
         }
 
-        html[lang="zh"] #btn-zh,
-        html[lang="en"] #btn-en {
-            background: var(--card-bg);
-            color: var(--text-color);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+        .dropdown-item:hover {
+            background: rgba(88, 86, 214, 0.1);
+            color: var(--primary-color);
+        }
+
+        /* === 3. 主页面内容排版 === */
+        .container {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* 炫酷首屏（Hero Section） */
+        .hero-section {
+            text-align: center;
+            padding: 50px 0 35px 0;
+        }
+
+        .hero-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 18px;
+            box-shadow: 0 8px 24px var(--shadow-color);
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .hero-section h1 {
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: -0.8px;
+            margin: 0 0 8px 0;
+        }
+
+        .hero-subtitle {
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin: 0;
+            font-weight: 400;
         }
 
         /* 卡片公共样式 - 磨砂玻璃质感 */
@@ -263,25 +375,86 @@
 </head>
 <body>
 
-<div class="container">
-    <header>
-        <div class="app-meta">
-            <img class="app-logo" src="WindowToAppIcon.png" alt="WindowTo Logo">
-            <div>
-                <h1>WindowTo</h1>
-                <p class="subtitle zh-only">更高效的 macOS 窗口管理工具</p>
-                <p class="subtitle en-only">A More Efficient Way to Manage macOS Windows</p>
+<!-- 吸顶导航栏 -->
+<nav class="navbar">
+    <div class="nav-container">
+        <!-- 左侧 App 品牌 -->
+        <a href="#home" class="nav-brand">
+            <img class="nav-logo" src="WindowToAppIcon.png" alt="WindowTo Logo">
+            <span class="nav-title">WindowTo</span>
+        </a>
+
+        <!-- 中部导航跳转 -->
+        <div class="nav-links">
+            <a href="#home" class="nav-link">
+                <span class="zh-only">主页</span>
+                <span class="en-only">Home</span>
+            </a>
+            <a href="#support" class="nav-link">
+                <span class="zh-only">支持与反馈</span>
+                <span class="en-only">Support</span>
+            </a>
+            <a href="#privacy" class="nav-link">
+                <span class="zh-only">隐私政策</span>
+                <span class="en-only">Privacy</span>
+            </a>
+        </div>
+
+        <!-- 右侧深浅色切换、语言下拉菜单 -->
+        <div class="nav-controls">
+            <!-- 1. 深色/浅色手动切换键 -->
+            <button class="control-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle Theme">
+                <!-- 太阳图标 -->
+                <svg class="sun-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+                <!-- 月亮图标 -->
+                <svg class="moon-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+            </button>
+
+            <!-- 2. 语言下拉切换控件 -->
+            <div class="dropdown">
+                <button class="control-btn" id="lang-menu-btn" onclick="toggleDropdown(event)" title="Choose Language">
+                    <!-- 地球图标 -->
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="2" y1="12" x2="22" y2="12"></line>
+                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                    </svg>
+                </button>
+                <div class="dropdown-menu" id="lang-dropdown">
+                    <button class="dropdown-item" onclick="selectLang('zh')">中文 (简体)</button>
+                    <button class="dropdown-item" onclick="selectLang('en')">English</button>
+                </div>
             </div>
         </div>
-        <div class="segmented-control">
-            <button class="segment-btn" id="btn-zh" onclick="setLang('zh')">中文</button>
-            <button class="segment-btn" id="btn-en" onclick="setLang('en')">English</button>
-        </div>
-    </header>
+    </div>
+</nav>
 
-    <!-- 卡片 1: 支持与反馈 -->
-    <section class="card">
-        <h2 class="zh-only">🛠️ 技术支持与反馈</h2>
+<!-- 网页主体内容 -->
+<div class="container">
+    <!-- 主页首屏锚点 -->
+    <div id="home" class="hero-section">
+        <img class="hero-logo" src="WindowToAppIcon.png" alt="WindowTo Logo">
+        <h1 class="zh-only">WindowTo</h1>
+        <h1 class="en-only">WindowTo</h1>
+        <p class="hero-subtitle zh-only">更高效的 macOS 窗口管理工具</p>
+        <p class="hero-subtitle en-only">A More Efficient Way to Manage macOS Windows</p>
+    </div>
+
+    <!-- 卡片 1: 支持与反馈版块 -->
+    <section class="card" id="support">
+        <h2 class="zh-only">🛠️ 支持与反馈</h2>
         <h2 class="en-only">🛠️ Support & Feedback</h2>
         
         <p class="zh-only">在使用 <strong>WindowTo</strong> 的过程中遇到任何疑问、Bug，或是想提交功能建议？欢迎随时联系我们，我们的团队通常会在 24 小时内为您答复。</p>
@@ -330,9 +503,9 @@
         </details>
     </section>
 
-    <!-- 卡片 3: 隐私政策 -->
-    <section class="card">
-        <h2 class="zh-only">🔒 隐私政策条款</h2>
+    <!-- 卡片 3: 隐私政策版块 -->
+    <section class="card" id="privacy">
+        <h2 class="zh-only">🔒 隐私政策</h2>
         <h2 class="en-only">🔒 Privacy Policy</h2>
         
         <p class="zh-only">我们深知您的隐私至关重要。作为一款系统级辅助工具，WindowTo 的核心设计理念是<strong>完全本地化与零隐私接触</strong>：</p>
@@ -359,36 +532,83 @@
 </div>
 
 <script>
-    // 基于 HTML 属性的语言切换器
+    /* === 1. 深色与浅色模式控制核心 (包含系统级感应 + 手动保存机制) === */
+    function applyTheme(theme) {
+        if (theme === 'dark') {
+            document.documentElement.classList.add('dark');
+            document.querySelector('.sun-icon').style.display = 'none';
+            document.querySelector('.moon-icon').style.display = 'block';
+        } else {
+            document.documentElement.classList.remove('dark');
+            document.querySelector('.sun-icon').style.display = 'block';
+            document.querySelector('.moon-icon').style.display = 'none';
+        }
+    }
+
+    function toggleTheme() {
+        const currentTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+        const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        applyTheme(nextTheme);
+        localStorage.setItem('user-theme', nextTheme); // 手动保存，永久生效
+    }
+
+    // 初始化深色或浅色主题
+    function initializeTheme() {
+        const savedTheme = localStorage.getItem('user-theme');
+        if (savedTheme === 'dark' || savedTheme === 'light') {
+            applyTheme(savedTheme);
+        } else {
+            // 如果用户没有手动设定，则根据当前系统色彩模式来响应
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            applyTheme(systemPrefersDark ? 'dark' : 'light');
+        }
+    }
+
+    // 监控系统色彩偏好变化，并在非手动覆盖状态下自动同步
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+        if (!localStorage.getItem('user-theme')) {
+            applyTheme(e.matches ? 'dark' : 'light');
+        }
+    });
+
+    /* === 2. 多语言切换和下拉交互 === */
     function setLang(lang) {
         document.documentElement.setAttribute('lang', lang);
-        // 保存用户的选择，以便下次访问时记住
         localStorage.setItem('preferred-lang', lang);
     }
 
-    // 初始化页面语言的函数
+    function toggleDropdown(event) {
+        event.stopPropagation();
+        document.getElementById('lang-dropdown').classList.toggle('show');
+    }
+
+    function selectLang(lang) {
+        setLang(lang);
+        document.getElementById('lang-dropdown').classList.remove('show');
+    }
+
+    // 点击网页其他地方，自动关闭多语言下拉菜单
+    window.addEventListener('click', () => {
+        document.getElementById('lang-dropdown').classList.remove('show');
+    });
+
+    // 页面语言初始化 (默认检测，不支持则fallback回英语)
     function initializeLanguage() {
-        // 1. 优先检查用户是否手动保存过语言偏好
         const savedLang = localStorage.getItem('preferred-lang');
         if (savedLang === 'en' || savedLang === 'zh') {
             setLang(savedLang);
-            return; // 如果有，直接应用并结束
+            return;
         }
-
-        // 2. 如果没有保存过，则检测浏览器的默认语言
         const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
-
-        // 3. 应用新的默认规则：
-        // 如果浏览器语言是任何地区的中文（如 zh-CN, zh-TW, zh-Hans），则显示中文
         if (browserLang.startsWith('zh')) {
             setLang('zh');
         } else {
-            // 对于所有其他语言（包括英文，以及德语、法语等不支持的语言），一律默认显示英文
             setLang('en');
         }
     }
 
-    // 页面加载时执行初始化
+    // 页面启动执行初始化
+    initializeTheme();
     initializeLanguage();
 </script>
 </body>
