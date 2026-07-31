@@ -1,130 +1,263 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WindowTo - Support & Privacy</title>
     <style>
         :root {
-            --primary-color: #0071e3;
-            --text-color: #1d1d1f;
+            --primary-color: #5856D6; /* 现代靛蓝色 */
             --bg-color: #f5f5f7;
-            --card-bg: #ffffff;
-            --border-color: #d2d2d7;
+            --bg-gradient: radial-gradient(circle at 50% -20%, rgba(88, 86, 214, 0.12) 0%, rgba(245, 245, 247, 0) 50%);
+            --card-bg: rgba(255, 255, 255, 0.75);
+            --text-color: #1d1d1f;
+            --text-secondary: #515154;
+            --border-color: rgba(0, 0, 0, 0.04);
+            --shadow-color: rgba(0, 0, 0, 0.04);
+            --btn-bg: #1d1d1f;
+            --btn-text: #ffffff;
         }
+
+        /* 自动适应 macOS 系统暗黑模式 */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #0d0d0f;
+                --bg-gradient: radial-gradient(circle at 50% -20%, rgba(88, 86, 214, 0.22) 0%, rgba(13, 13, 15, 0) 65%);
+                --card-bg: rgba(26, 26, 30, 0.8);
+                --text-color: #f5f5f7;
+                --text-secondary: #a1a1a6;
+                --border-color: rgba(255, 255, 255, 0.06);
+                --shadow-color: rgba(0, 0, 0, 0.3);
+                --btn-bg: #f5f5f7;
+                --btn-text: #1d1d1f;
+            }
+        }
+
+        /* 多语言节点群控制 */
+        html[lang="zh"] .en-only { display: none !important; }
+        html[lang="en"] .zh-only { display: none !important; }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Myriad Set Pro", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
-            line-height: 1.5;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            line-height: 1.6;
             color: var(--text-color);
             background-color: var(--bg-color);
+            background-image: var(--bg-gradient);
+            background-attachment: fixed;
             margin: 0;
             padding: 40px 20px;
+            -webkit-font-smoothing: antialiased;
         }
+
         .container {
-            max-width: 720px;
+            max-width: 680px;
             margin: 0 auto;
-            background: var(--card-bg);
-            padding: 40px;
-            border-radius: 18px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
         }
+
+        /* 顶部导航与多语言分段选择器 */
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 20px;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
         }
-        .app-info {
+
+        .app-meta {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 16px;
         }
+
         .app-logo {
-            width: 60px;
-            height: 60px;
+            width: 58px;
+            height: 58px;
             border-radius: 14px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-            object-fit: cover; /* 确保图片不变形填满方块 */
+            box-shadow: 0 4px 14px var(--shadow-color);
+            object-fit: cover;
+            border: 1px solid var(--border-color);
         }
+
         h1 {
             margin: 0;
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 700;
+            letter-spacing: -0.5px;
         }
-        p.subtitle {
-            margin: 5px 0 0 0;
-            color: #86868b;
-            font-size: 14px;
+
+        .subtitle {
+            margin: 3px 0 0 0;
+            font-size: 13px;
+            color: var(--text-secondary);
         }
-        .lang-switch {
+
+        /* iOS 风格分段选择器 */
+        .segmented-control {
             display: flex;
-            gap: 5px;
-            background: #e8e8ed;
-            padding: 4px;
-            border-radius: 8px;
+            background: rgba(120, 120, 128, 0.12);
+            padding: 3px;
+            border-radius: 9px;
+            border: none;
         }
-        .lang-btn {
+
+        .segment-btn {
             background: none;
             border: none;
-            padding: 6px 12px;
-            font-size: 13px;
+            padding: 6px 14px;
+            font-size: 12px;
             font-weight: 500;
-            border-radius: 6px;
+            border-radius: 7px;
             cursor: pointer;
-            transition: all 0.2s;
-            color: #515154;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            color: var(--text-secondary);
         }
-        .lang-btn.active {
-            background: white;
+
+        html[lang="zh"] #btn-zh,
+        html[lang="en"] #btn-en {
+            background: var(--card-bg);
             color: var(--text-color);
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
         }
+
+        /* 卡片公共样式 - 磨砂玻璃质感 */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 16px;
+            padding: 28px 30px;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 30px -10px var(--shadow-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px -8px var(--shadow-color);
+        }
+
         h2 {
-            font-size: 18px;
+            font-size: 17px;
             font-weight: 600;
-            margin-top: 30px;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 8px;
+            margin-top: 0;
+            margin-bottom: 16px;
+            letter-spacing: -0.2px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        .faq-item {
-            margin-bottom: 15px;
+
+        p {
+            margin: 0 0 16px 0;
+            font-size: 14.5px;
+            color: var(--text-secondary);
         }
-        .faq-q {
-            font-weight: 600;
-            margin-bottom: 5px;
+
+        /* 按钮与联系方式 */
+        .contact-area {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-top: 20px;
         }
-        .faq-a {
-            color: #515154;
-            font-size: 15px;
+
+        .email-info {
+            font-size: 14px;
+            color: var(--text-secondary);
         }
-        a {
+
+        .email-info a {
             color: var(--primary-color);
+            font-weight: 500;
             text-decoration: none;
         }
-        a:hover {
+
+        .email-info a:hover {
             text-decoration: underline;
         }
-        .btn-contact {
-            display: inline-block;
-            background-color: var(--primary-color);
-            color: white;
-            padding: 10px 22px;
+
+        .btn-cta {
+            background-color: var(--btn-bg);
+            color: var(--btn-text);
+            padding: 10px 20px;
             border-radius: 8px;
+            font-size: 13.5px;
             font-weight: 500;
-            margin-top: 15px;
-            transition: background 0.2s;
-        }
-        .btn-contact:hover {
-            background-color: #0077ed;
             text-decoration: none;
+            transition: opacity 0.2s;
         }
+
+        .btn-cta:hover {
+            opacity: 0.85;
+        }
+
+        /* 优雅的原生手风琴 FAQ */
+        details {
+            border-bottom: 1px solid var(--border-color);
+            padding: 14px 0;
+        }
+
+        details:last-of-type {
+            border-bottom: none;
+        }
+
+        summary {
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            outline: none;
+            color: var(--text-color);
+        }
+
+        summary::-webkit-details-marker {
+            display: none;
+        }
+
+        summary::after {
+            content: '＋';
+            font-size: 12px;
+            color: var(--text-secondary);
+            transition: transform 0.2s ease;
+        }
+
+        details[open] summary::after {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            margin-top: 10px;
+            font-size: 13.5px;
+            color: var(--text-secondary);
+        }
+
+        /* 隐私列表 */
+        ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        li {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        li strong {
+            color: var(--text-color);
+        }
+
         .footer {
             text-align: center;
             margin-top: 40px;
-            font-size: 12px;
-            color: #86868b;
+            font-size: 11px;
+            color: var(--text-secondary);
+            opacity: 0.8;
         }
     </style>
 </head>
@@ -132,75 +265,93 @@
 
 <div class="container">
     <header>
-        <div class="app-info">
-            <!-- 已将此处修改为读取图片文件 WindowToAppIcon.png -->
+        <div class="app-meta">
             <img class="app-logo" src="WindowToAppIcon.png" alt="WindowTo Logo">
             <div>
                 <h1>WindowTo</h1>
-                <p class="subtitle lang-el" id="app-desc">A More Efficient Way to Manage Windows</p>
+                <p class="subtitle zh-only">更高效的 macOS 窗口管理工具</p>
+                <p class="subtitle en-only">A More Efficient Way to Manage macOS Windows</p>
             </div>
         </div>
-        <div class="lang-switch">
-            <button class="lang-btn active" id="btn-zh" onclick="setLang('zh')">中文</button>
-            <button class="lang-btn" id="btn-en" onclick="setLang('en')">English</button>
+        <div class="segmented-control">
+            <button class="segment-btn" id="btn-zh" onclick="setLang('zh')">中文</button>
+            <button class="segment-btn" id="btn-en" onclick="setLang('en')">English</button>
         </div>
     </header>
 
-    <!-- 中文内容 -->
-    <div id="content-zh" class="lang-section">
-        <h2>技术支持 & 反馈</h2>
-        <p>如果您在使用 <strong>WindowTo</strong> 的过程中遇到任何问题，或对软件有任何改进建议，欢迎随时联系我们。我们将尽力为您提供支持！</p>
-        <p><strong>联系邮箱：</strong> <a href="mailto:wh382765578@gmail.com">wh382765578@gmail.com</a></p>
-        <a class="btn-contact" href="mailto:wh382765578@gmail.com">发送邮件联系我们</a>
-
-        <h2>常见问题解答 (FAQ)</h2>
-        <div class="faq-item">
-            <div class="faq-q">1. 为什么 WindowTo 需要“辅助功能”权限？</div>
-            <div class="faq-a">由于 macOS 的安全机制，任何用于调整其他应用程序窗口大小和位置的工具，都必须获得系统安全设置中的“辅助功能（Accessibility）”授权。WindowTo 仅利用该权限执行窗口调整操作，绝不会通过此权限收集或传输您的任何个人隐私。</div>
+    <!-- 卡片 1: 支持与反馈 -->
+    <section class="card">
+        <h2 class="zh-only">🛠️ 技术支持与反馈</h2>
+        <h2 class="en-only">🛠️ Support & Feedback</h2>
+        
+        <p class="zh-only">在使用 <strong>WindowTo</strong> 的过程中遇到任何疑问、Bug，或是想提交功能建议？欢迎随时联系我们，我们的团队通常会在 24 小时内为您答复。</p>
+        <p class="en-only">Having questions, encountering bugs, or wanting to request a feature? Feel free to contact us. We usually get back to you within 24 hours.</p>
+        
+        <div class="contact-area">
+            <div class="email-info">
+                <span class="zh-only">联系邮箱：</span>
+                <span class="en-only">Support Email: </span>
+                <a href="mailto:wh382765578@gmail.com">wh382765578@gmail.com</a>
+            </div>
+            <a class="btn-cta" href="mailto:wh382765578@gmail.com">
+                <span class="zh-only">发送反馈</span>
+                <span class="en-only">Contact Us</span>
+            </a>
         </div>
-        <div class="faq-item">
-            <div class="faq-q">2. 软件运行有什么系统版本要求？</div>
-            <div class="faq-a">WindowTo 推荐在 macOS 12.0 及以上版本运行，以便获得最佳的兼容性与流畅度。</div>
-        </div>
+    </section>
 
-        <h2>隐私政策说明</h2>
-        <p><strong>更新日期：</strong> 2026年7月</p>
-        <p>我们深知隐私对您的重要性。WindowTo 在设计之初就遵循极简与安全的原则：</p>
+    <!-- 卡片 2: FAQ 折叠面板 -->
+    <section class="card">
+        <h2 class="zh-only">❓ 常见问题解答</h2>
+        <h2 class="en-only">❓ Frequently Asked Questions</h2>
+        
+        <!-- FAQ 1 -->
+        <details>
+            <summary>
+                <span class="zh-only">1. 为什么 WindowTo 需要“辅助功能”权限？</span>
+                <span class="en-only">1. Why does WindowTo require "Accessibility" permission?</span>
+            </summary>
+            <div class="faq-answer">
+                <p class="zh-only">由于 macOS 的安全沙盒限制，任何用于跨应用调整窗口大小和位置的系统工具，都必须在系统设置中获得“辅助功能（Accessibility）”授权。WindowTo 仅会利用此权限来实现窗口排版逻辑，绝不会以此收集、读取或传输您的任何个人屏幕或键盘输入信息。</p>
+                <p class="en-only">Due to macOS security sandbox restrictions, any system utility designed to resize and reposition windows of other applications must be granted "Accessibility" authorization. WindowTo only utilizes this privilege to implement window layout actions, and will never collect, read, or transmit your screen contents or keystrokes.</p>
+            </div>
+        </details>
+
+        <!-- FAQ 2 -->
+        <details>
+            <summary>
+                <span class="zh-only">2. 运行有什么系统版本限制？</span>
+                <span class="en-only">2. What are the system requirements?</span>
+            </summary>
+            <div class="faq-answer">
+                <p class="zh-only">WindowTo 深度适配了 macOS 的底层 API。为了获得最极致、流畅的窗口排版体验，我们建议您的系统运行在 macOS 12.0 或更高版本。</p>
+                <p class="en-only">WindowTo is deeply optimized for native macOS APIs. To ensure the smoothest window management experience, we recommend using macOS 12.0 or later.</p>
+            </div>
+        </details>
+    </section>
+
+    <!-- 卡片 3: 隐私政策 -->
+    <section class="card">
+        <h2 class="zh-only">🔒 隐私政策条款</h2>
+        <h2 class="en-only">🔒 Privacy Policy</h2>
+        
+        <p class="zh-only">我们深知您的隐私至关重要。作为一款系统级辅助工具，WindowTo 的核心设计理念是<strong>完全本地化与零隐私接触</strong>：</p>
+        <p class="en-only">We deeply value your privacy. As a system-level utility, WindowTo is engineered from the ground up to be **completely local and privacy-safe**:</p>
+        
         <ul>
-            <li><strong>不收集数据：</strong> 我们不会收集、存储、上传或共享您的任何个人数据、设备信息、窗口布局或任何隐私敏感内容。</li>
-            <li><strong>无网络传输：</strong> 本应用的所有窗口管理及计算均完全在您的本地设备上进行，应用不会在后台与任何外部服务器建立连接。</li>
-            <li><strong>第三方 SDK：</strong> 本应用未集成任何第三方统计、广告、分析等可能会收集用户隐私的第三方 SDK。</li>
+            <li class="zh-only"><strong>无数据收集：</strong> 应用绝不收集、不存储、不上报，也不会与任何第三方分享您的个人敏感数据。</li>
+            <li class="en-only"><strong>Zero Data Collection:</strong> The app does not collect, store, report, or share any of your personal or sensitive data.</li>
+            
+            <li class="zh-only"><strong>全本地运行：</strong> 所有的窗口管理操作和计算均完全运行在您的设备本地，应用没有服务器端，也无需网络传输。</li>
+            <li class="en-only"><strong>Processed Locally:</strong> All window management operations and layout computations are executed entirely on your local machine. No external servers or networking are required.</li>
+            
+            <li class="zh-only"><strong>无第三方插件：</strong> 应用未集成任何第三方统计、监测、行为分析或广告 SDK，从物理层杜绝潜在的隐私泄漏路径。</li>
+            <li class="en-only"><strong>No Third-Party SDKs:</strong> This application contains no analytics, telemetry, tracking, or advertising SDKs.</li>
         </ul>
-        <p>如果您对本隐私政策有任何疑问，可通过上述支持邮箱与我们沟通。</p>
-    </div>
-
-    <!-- 英文内容 -->
-    <div id="content-en" class="lang-section" style="display: none;">
-        <h2>Support & Feedback</h2>
-        <p>If you encounter any issues while using <strong>WindowTo</strong>, or have any suggestions for improvement, please feel free to contact us. We will do our best to assist you!</p>
-        <p><strong>Email:</strong> <a href="mailto:wh382765578@gmail.com">wh382765578@gmail.com</a></p>
-        <a class="btn-contact" href="mailto:wh382765578@gmail.com">Email Us</a>
-
-        <h2>Frequently Asked Questions (FAQ)</h2>
-        <div class="faq-item">
-            <div class="faq-q">1. Why does WindowTo require "Accessibility" permission?</div>
-            <div class="faq-a">Due to macOS security restrictions, any utility designed to resize and reposition windows of other applications must be granted "Accessibility" authorization in system preferences. WindowTo only uses this permission to perform window adjustments and will never collect or transmit any of your personal data.</div>
-        </div>
-        <div class="faq-item">
-            <div class="faq-q">2. What are the system requirements?</div>
-            <div class="faq-a">WindowTo is recommended for macOS 12.0 or later to ensure the best performance and compatibility.</div>
-        </div>
-
-        <h2>Privacy Policy</h2>
-        <p><strong>Last Updated:</strong> July 2026</p>
-        <p>We deeply value your privacy. WindowTo is built from the ground up with simplicity and security in mind:</p>
-        <ul>
-            <li><strong>No Data Collection:</strong> We do not collect, store, upload, or share any of your personal data, device information, window configurations, or private content.</li>
-            <li><strong>Local Processing:</strong> All window management operations and calculations are processed entirely locally on your device. The app does not connect to any external servers.</li>
-            <li><strong>No Third-Party SDKs:</strong> This app does not integrate any third-party advertising, tracking, or analytical SDKs that could potentially collect user data.</li>
-        </ul>
-        <p>If you have any questions regarding this Privacy Policy, please contact us via the support email above.</p>
-    </div>
+        
+        <p style="margin-top: 15px; margin-bottom: 0; font-size: 12.5px; opacity: 0.8;" class="zh-only"><strong>最近更新时间：</strong> 2026年7月</p>
+        <p style="margin-top: 15px; margin-bottom: 0; font-size: 12.5px; opacity: 0.8;" class="en-only"><strong>Last Updated:</strong> July 2026</p>
+    </section>
 </div>
 
 <div class="footer">
@@ -208,21 +359,37 @@
 </div>
 
 <script>
+    // 基于 HTML 属性的语言切换器
     function setLang(lang) {
-        if (lang === 'zh') {
-            document.getElementById('content-zh').style.display = 'block';
-            document.getElementById('content-en').style.display = 'none';
-            document.getElementById('btn-zh').classList.add('active');
-            document.getElementById('btn-en').classList.remove('active');
-            document.getElementById('app-desc').innerText = '更高效的窗口管理方式';
+        document.documentElement.setAttribute('lang', lang);
+        // 保存用户的选择，以便下次访问时记住
+        localStorage.setItem('preferred-lang', lang);
+    }
+
+    // 初始化页面语言的函数
+    function initializeLanguage() {
+        // 1. 优先检查用户是否手动保存过语言偏好
+        const savedLang = localStorage.getItem('preferred-lang');
+        if (savedLang === 'en' || savedLang === 'zh') {
+            setLang(savedLang);
+            return; // 如果有，直接应用并结束
+        }
+
+        // 2. 如果没有保存过，则检测浏览器的默认语言
+        const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
+
+        // 3. 应用新的默认规则：
+        // 如果浏览器语言是任何地区的中文（如 zh-CN, zh-TW, zh-Hans），则显示中文
+        if (browserLang.startsWith('zh')) {
+            setLang('zh');
         } else {
-            document.getElementById('content-zh').style.display = 'none';
-            document.getElementById('content-en').style.display = 'block';
-            document.getElementById('btn-zh').classList.remove('active');
-            document.getElementById('btn-en').classList.add('active');
-            document.getElementById('app-desc').innerText = 'A More Efficient Way to Manage Windows';
+            // 对于所有其他语言（包括英文，以及德语、法语等不支持的语言），一律默认显示英文
+            setLang('en');
         }
     }
+
+    // 页面加载时执行初始化
+    initializeLanguage();
 </script>
 </body>
 </html>
