@@ -44,15 +44,9 @@
         .app-logo {
             width: 60px;
             height: 60px;
-            background: linear-gradient(135deg, #0575e6, #00f2fe);
             border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 24px;
-            font-weight: bold;
-            box-shadow: 0 4px 10px rgba(5, 117, 230, 0.3);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            object-fit: cover; /* 确保图片不变形填满方块 */
         }
         h1 {
             margin: 0;
@@ -139,8 +133,8 @@
 <div class="container">
     <header>
         <div class="app-info">
-            <!-- 临时纯CSS图标，您可以后续替换为您App的真正图标 -->
-            <div class="app-logo">W</div>
+            <!-- 已将此处修改为读取图片文件 WindowToAppIcon.png -->
+            <img class="app-logo" src="WindowToAppIcon.png" alt="WindowTo Logo">
             <div>
                 <h1>WindowTo</h1>
                 <p class="subtitle lang-el" id="app-desc">A More Efficient Way to Manage Windows</p>
@@ -156,8 +150,8 @@
     <div id="content-zh" class="lang-section">
         <h2>技术支持 & 反馈</h2>
         <p>如果您在使用 <strong>WindowTo</strong> 的过程中遇到任何问题，或对软件有任何改进建议，欢迎随时联系我们。我们将尽力为您提供支持！</p>
-        <p><strong>联系邮箱：</strong> <a href="mailto:your_email@domain.com">your_email@domain.com</a></p>
-        <a class="btn-contact" href="mailto:your_email@domain.com">发送邮件联系我们</a>
+        <p><strong>联系邮箱：</strong> <a href="mailto:wh382765578@gmail.com">wh382765578@gmail.com</a></p>
+        <a class="btn-contact" href="mailto:wh382765578@gmail.com">发送邮件联系我们</a>
 
         <h2>常见问题解答 (FAQ)</h2>
         <div class="faq-item">
@@ -184,8 +178,8 @@
     <div id="content-en" class="lang-section" style="display: none;">
         <h2>Support & Feedback</h2>
         <p>If you encounter any issues while using <strong>WindowTo</strong>, or have any suggestions for improvement, please feel free to contact us. We will do our best to assist you!</p>
-        <p><strong>Email:</strong> <a href="mailto:your_email@domain.com">your_email@domain.com</a></p>
-        <a class="btn-contact" href="mailto:your_email@domain.com">Email Us</a>
+        <p><strong>Email:</strong> <a href="mailto:wh382765578@gmail.com">wh382765578@gmail.com</a></p>
+        <a class="btn-contact" href="mailto:wh382765578@gmail.com">Email Us</a>
 
         <h2>Frequently Asked Questions (FAQ)</h2>
         <div class="faq-item">
@@ -215,7 +209,6 @@
 
 <script>
     function setLang(lang) {
-        // 切换内容显示
         if (lang === 'zh') {
             document.getElementById('content-zh').style.display = 'block';
             document.getElementById('content-en').style.display = 'none';
