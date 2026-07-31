@@ -39,13 +39,7 @@
         html[lang="zh"] .en-only { display: none !important; }
         html[lang="en"] .zh-only { display: none !important; }
 
-        html {
-            scroll-behavior: smooth;
-            /* 关键：防止吸顶导航栏遮挡滚动定位 */
-            scroll-padding-top: 86px; 
-        }
-
-        /* 防闪烁过渡处理器 */
+        /* 防止初始加载色彩闪烁 */
         body.no-transition * {
             transition: none !important;
         }
@@ -67,7 +61,7 @@
             transition: background-color 0.3s ease, background-image 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
         }
 
-        /* === 1. 毛玻璃吸顶导航栏 === */
+        /* === 1. 吸顶导航栏（标题栏） === */
         .navbar {
             position: sticky;
             top: 0;
@@ -80,7 +74,7 @@
         }
 
         .nav-container {
-            max-width: 680px; /* 完美对齐内容栅格线 */
+            max-width: 680px; /* 完美对齐下方内容边界 */
             margin: 0 auto;
             padding: 12px 20px;
             display: flex;
@@ -88,7 +82,13 @@
             justify-content: space-between;
         }
 
-        /* 左侧品牌 */
+        /* 左侧区域：整合品牌与导航文字 */
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 28px; /* 品牌与菜单文字的间距 */
+        }
+
         .nav-brand {
             display: flex;
             align-items: center;
@@ -115,7 +115,7 @@
             letter-spacing: -0.2px;
         }
 
-        /* 中间菜单链接 */
+        /* 导航菜单文字（放在左侧，紧跟品牌） */
         .nav-links {
             display: flex;
             gap: 20px;
@@ -132,13 +132,18 @@
             color: var(--text-color);
         }
 
-        /* 滚动监听自动点亮样式 */
+        /* 激活状态 */
         .nav-link.active {
             color: var(--nav-link-active);
             font-weight: 600;
         }
 
-        /* 右侧控制键 */
+        /* 右侧区域：控制按键 */
+        .nav-right {
+            display: flex;
+            align-items: center;
+        }
+
         .nav-controls {
             display: flex;
             align-items: center;
@@ -163,7 +168,7 @@
             border-color: var(--text-secondary);
         }
 
-        /* === 2. 下拉语言菜单设计 === */
+        /* === 2. 下拉语言菜单 === */
         .dropdown {
             position: relative;
         }
@@ -208,44 +213,50 @@
             color: var(--primary-color);
         }
 
-        /* 下拉菜单语言激活状态 */
         .dropdown-item.active {
             font-weight: 600;
             color: var(--primary-color);
             background: rgba(88, 86, 214, 0.06);
         }
 
-        /* === 3. 主页面内容排版 === */
+        /* === 3. 页面容器与分区控制 === */
         .container {
             max-width: 680px;
             margin: 0 auto;
             padding: 0 20px;
         }
 
-        /* 炫酷首屏（Hero Section） */
-        .hero-section {
-            text-align: center;
-            padding: 50px 0 35px 0;
+        /* 核心：将每个页面设为独立板块，默认隐藏 */
+        .page-section {
+            display: none;
+            animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .hero-logo {
-            width: 80px;
-            height: 80px;
-            border-radius: 18px;
-            box-shadow: 0 8px 24px var(--shadow-color);
-            margin-bottom: 20px;
-            border: 1px solid var(--border-color);
+        /* 激活的页面板块展示出来 */
+        .page-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 极简首屏（Hero Section，已移除了冗余大图标） */
+        .hero-section {
+            text-align: center;
+            padding: 60px 0 35px 0;
         }
 
         .hero-section h1 {
-            font-size: 32px;
+            font-size: 36px;
             font-weight: 800;
-            letter-spacing: -0.8px;
-            margin: 0 0 8px 0;
+            letter-spacing: -1px;
+            margin: 0 0 10px 0;
         }
 
         .hero-subtitle {
-            font-size: 16px;
+            font-size: 17px;
             color: var(--text-secondary);
             margin: 0;
             font-weight: 400;
@@ -261,12 +272,6 @@
             padding: 28px 30px;
             margin-bottom: 24px;
             box-shadow: 0 10px 30px -10px var(--shadow-color);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 35px -8px var(--shadow-color);
         }
 
         h2 {
@@ -326,7 +331,7 @@
             opacity: 0.85;
         }
 
-        /* 优雅的原生手风琴 FAQ */
+        /* 手风琴 FAQ */
         details {
             border-bottom: 1px solid var(--border-color);
             padding: 14px 0;
@@ -393,175 +398,182 @@
             opacity: 0.8;
         }
 
-        /* 适配移动端窄屏的弹性导航设计 */
-        @media (max-width: 480px) {
+        /* 窄屏自适应：防止链接与Logo拥挤 */
+        @media (max-width: 520px) {
             .nav-container {
                 padding: 12px 15px;
             }
+            .nav-left {
+                gap: 14px;
+            }
             .nav-links {
-                gap: 12px;
+                gap: 10px;
             }
             .nav-link {
                 font-size: 12.5px;
             }
             .nav-title {
-                display: none; /* 屏幕极窄时隐藏文字品牌，仅留Logo，防止拥挤 */
+                display: none; /* 屏幕窄时隐藏品牌文字，留Logo，防止溢出 */
             }
         }
     </style>
 </head>
-<body class="no-transition"> <!-- 加载时带 no-transition 类以防止色彩闪烁 -->
+<body class="no-transition">
 
-<!-- 吸顶导航栏 -->
+<!-- 吸顶导航栏（标题栏） -->
 <nav class="navbar">
     <div class="nav-container">
-        <!-- 左侧 App 品牌 -->
-        <a href="#home" class="nav-brand">
-            <img class="nav-logo" src="WindowToAppIcon.png" alt="WindowTo Logo">
-            <span class="nav-title">WindowTo</span>
-        </a>
-
-        <!-- 中部导航跳转 -->
-        <div class="nav-links">
-            <a href="#home" class="nav-link">
-                <span class="zh-only">主页</span>
-                <span class="en-only">Home</span>
+        <!-- 左侧区域：合拢了品牌与菜单链接 -->
+        <div class="nav-left">
+            <a href="#home" class="nav-brand">
+                <img class="nav-logo" src="WindowToAppIcon.png" alt="WindowTo Logo">
+                <span class="nav-title">WindowTo</span>
             </a>
-            <a href="#support" class="nav-link">
-                <span class="zh-only">支持与反馈</span>
-                <span class="en-only">Support</span>
-            </a>
-            <a href="#privacy" class="nav-link">
-                <span class="zh-only">隐私政策</span>
-                <span class="en-only">Privacy</span>
-            </a>
+            <div class="nav-links">
+                <a href="#home" class="nav-link">
+                    <span class="zh-only">主页</span>
+                    <span class="en-only">Home</span>
+                </a>
+                <a href="#support" class="nav-link">
+                    <span class="zh-only">支持与反馈</span>
+                    <span class="en-only">Support</span>
+                </a>
+                <a href="#privacy" class="nav-link">
+                    <span class="zh-only">隐私政策</span>
+                    <span class="en-only">Privacy</span>
+                </a>
+            </div>
         </div>
 
-        <!-- 右侧控制键 -->
-        <div class="nav-controls">
-            <!-- 1. 深色/浅色手动切换键 -->
-            <button class="control-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle Theme">
-                <!-- 太阳图标 -->
-                <svg class="sun-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="5"></circle>
-                    <line x1="12" y1="1" x2="12" y2="3"></line>
-                    <line x1="12" y1="21" x2="12" y2="23"></line>
-                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                    <line x1="1" y1="12" x2="3" y2="12"></line>
-                    <line x1="21" y1="12" x2="23" y2="12"></line>
-                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                </svg>
-                <!-- 月亮图标 -->
-                <svg class="moon-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
-                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                </svg>
-            </button>
-
-            <!-- 2. 语言下拉切换控件 -->
-            <div class="dropdown">
-                <button class="control-btn" id="lang-menu-btn" onclick="toggleDropdown(event)" title="Choose Language">
-                    <!-- 地球图标 -->
-                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <line x1="2" y1="12" x2="22" y2="12"></line>
-                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+        <!-- 右侧区域：偏好控制 -->
+        <div class="nav-right">
+            <div class="nav-controls">
+                <!-- 深浅色切换键 -->
+                <button class="control-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle Theme">
+                    <svg class="sun-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="moon-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                     </svg>
                 </button>
-                <div class="dropdown-menu" id="lang-dropdown">
-                    <button class="dropdown-item" id="lang-item-zh" onclick="selectLang('zh')">中文 (简体)</button>
-                    <button class="dropdown-item" id="lang-item-en" onclick="selectLang('en')">English</button>
+
+                <!-- 语言选择下拉键 -->
+                <div class="dropdown">
+                    <button class="control-btn" id="lang-menu-btn" onclick="toggleDropdown(event)" title="Choose Language">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="2" y1="12" x2="22" y2="12"></line>
+                            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                        </svg>
+                    </button>
+                    <div class="dropdown-menu" id="lang-dropdown">
+                        <button class="dropdown-item" id="lang-item-zh" onclick="selectLang('zh')">中文 (简体)</button>
+                        <button class="dropdown-item" id="lang-item-en" onclick="selectLang('en')">English</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </nav>
 
-<!-- 网页主体内容 -->
+<!-- 页面主要内容容器 -->
 <div class="container">
-    <!-- 主页首屏锚点 -->
-    <div id="home" class="hero-section">
-        <img class="hero-logo" src="WindowToAppIcon.png" alt="WindowTo Logo">
-        <h1 class="zh-only">WindowTo</h1>
-        <h1 class="en-only">WindowTo</h1>
-        <p class="hero-subtitle zh-only">更高效的 macOS 窗口管理工具</p>
-        <p class="hero-subtitle en-only">A More Efficient Way to Manage macOS Windows</p>
+
+    <!-- 1. 【主页】板块（仅在此激活时显示） -->
+    <div id="home" class="page-section">
+        <div class="hero-section">
+            <h1 class="zh-only">WindowTo</h1>
+            <h1 class="en-only">WindowTo</h1>
+            <p class="hero-subtitle zh-only">更高效的 macOS 窗口管理工具</p>
+            <p class="hero-subtitle en-only">A More Efficient Way to Manage macOS Windows</p>
+        </div>
+
+        <!-- 常见问题解答卡片 -->
+        <section class="card">
+            <h2 class="zh-only">❓ 常见问题解答</h2>
+            <h2 class="en-only">❓ Frequently Asked Questions</h2>
+            
+            <details>
+                <summary>
+                    <span class="zh-only">1. 为什么 WindowTo 需要“辅助功能”权限？</span>
+                    <span class="en-only">1. Why does WindowTo require "Accessibility" permission?</span>
+                </summary>
+                <div class="faq-answer">
+                    <p class="zh-only">由于 macOS 的安全沙盒限制，任何用于跨应用调整窗口大小和位置的系统工具，都必须在系统设置中获得“辅助功能（Accessibility）”授权。WindowTo 仅会利用此权限来实现窗口排版逻辑，绝不会以此收集、读取或传输您的任何个人屏幕或键盘输入信息。</p>
+                    <p class="en-only">Due to macOS security sandbox restrictions, any system utility designed to resize and reposition windows of other applications must be granted "Accessibility" authorization. WindowTo only utilizes this privilege to implement window layout actions, and will never collect, read, or transmit your screen contents or keystrokes.</p>
+                </div>
+            </details>
+
+            <details>
+                <summary>
+                    <span class="zh-only">2. 运行有什么系统版本限制？</span>
+                    <span class="en-only">2. What are the system requirements?</span>
+                </summary>
+                <div class="faq-answer">
+                    <p class="zh-only">WindowTo 深度适配了 macOS 的底层 API。为了获得最极致、流畅的窗口排版体验，我们建议您的系统运行在 macOS 12.0 或更高版本。</p>
+                    <p class="en-only">WindowTo is deeply optimized for native macOS APIs. To ensure the smoothest window management experience, we recommend using macOS 12.0 or later.</p>
+                </div>
+            </details>
+        </section>
     </div>
 
-    <!-- 卡片 1: 支持与反馈版块 -->
-    <section class="card" id="support">
-        <h2 class="zh-only">🛠️ 支持与反馈</h2>
-        <h2 class="en-only">🛠️ Support & Feedback</h2>
-        
-        <p class="zh-only">在使用 <strong>WindowTo</strong> 的过程中遇到任何疑问、Bug，或是想提交功能建议？欢迎随时联系我们，我们的团队通常会在 24 小时内为您答复。</p>
-        <p class="en-only">Having questions, encountering bugs, or wanting to request a feature? Feel free to contact us. We usually get back to you within 24 hours.</p>
-        
-        <div class="contact-area">
-            <div class="email-info">
-                <span class="zh-only">联系邮箱：</span>
-                <span class="en-only">Support Email: </span>
-                <a href="mailto:wh382765578@gmail.com">wh382765578@gmail.com</a>
-            </div>
-            <a class="btn-cta" href="mailto:wh382765578@gmail.com">
-                <span class="zh-only">发送反馈</span>
-                <span class="en-only">Contact Us</span>
-            </a>
-        </div>
-    </section>
-
-    <!-- 卡片 2: FAQ 折叠面板 -->
-    <section class="card">
-        <h2 class="zh-only">❓ 常见问题解答</h2>
-        <h2 class="en-only">❓ Frequently Asked Questions</h2>
-        
-        <!-- FAQ 1 -->
-        <details>
-            <summary>
-                <span class="zh-only">1. 为什么 WindowTo 需要“辅助功能”权限？</span>
-                <span class="en-only">1. Why does WindowTo require "Accessibility" permission?</span>
-            </summary>
-            <div class="faq-answer">
-                <p class="zh-only">由于 macOS 的安全沙盒限制，任何用于跨应用调整窗口大小和位置的系统工具，都必须在系统设置中获得“辅助功能（Accessibility）”授权。WindowTo 仅会利用此权限来实现窗口排版逻辑，绝不会以此收集、读取或传输您的任何个人屏幕或键盘输入信息。</p>
-                <p class="en-only">Due to macOS security sandbox restrictions, any system utility designed to resize and reposition windows of other applications must be granted "Accessibility" authorization. WindowTo only utilizes this privilege to implement window layout actions, and will never collect, read, or transmit your screen contents or keystrokes.</p>
-            </div>
-        </details>
-
-        <!-- FAQ 2 -->
-        <details>
-            <summary>
-                <span class="zh-only">2. 运行有什么系统版本限制？</span>
-                <span class="en-only">2. What are the system requirements?</span>
-            </summary>
-            <div class="faq-answer">
-                <p class="zh-only">WindowTo 深度适配了 macOS 的底层 API。为了获得最极致、流畅的窗口排版体验，我们建议您的系统运行在 macOS 12.0 或更高版本。</p>
-                <p class="en-only">WindowTo is deeply optimized for native macOS APIs. To ensure the smoothest window management experience, we recommend using macOS 12.0 or later.</p>
-            </div>
-        </details>
-    </section>
-
-    <!-- 卡片 3: 隐私政策版块 -->
-    <section class="card" id="privacy">
-        <h2 class="zh-only">🔒 隐私政策</h2>
-        <h2 class="en-only">🔒 Privacy Policy</h2>
-        
-        <p class="zh-only">我们深知您的隐私至关重要。作为一款系统级辅助工具，WindowTo 的核心设计理念是<strong>完全本地化与零隐私接触</strong>：</p>
-        <p class="en-only">We deeply value your privacy. As a system-level utility, WindowTo is engineered from the ground up to be **completely local and privacy-safe**:</p>
-        
-        <ul>
-            <li class="zh-only"><strong>无数据收集：</strong> 应用绝不收集、不存储、不上报，也不会与任何第三方分享您的个人敏感数据。</li>
-            <li class="en-only"><strong>Zero Data Collection:</strong> The app does not collect, store, report, or share any of your personal or sensitive data.</li>
+    <!-- 2. 【支持与反馈】板块（独立页面） -->
+    <div id="support" class="page-section">
+        <section class="card" style="margin-top: 40px;">
+            <h2 class="zh-only">🛠️ 支持与反馈</h2>
+            <h2 class="en-only">🛠️ Support & Feedback</h2>
             
-            <li class="zh-only"><strong>全本地运行：</strong> 所有的窗口管理操作和计算均完全运行在您的设备本地，应用没有服务器端，也无需网络传输。</li>
-            <li class="en-only"><strong>Processed Locally:</strong> All window management operations and layout computations are executed entirely on your local machine. No external servers or networking are required.</li>
+            <p class="zh-only">在使用 <strong>WindowTo</strong> 的过程中遇到任何疑问、Bug，或是想提交功能建议？欢迎随时联系我们，我们的团队通常会在 24 小时内为您答复。</p>
+            <p class="en-only">Having questions, encountering bugs, or wanting to request a feature? Feel free to contact us. We usually get back to you within 24 hours.</p>
             
-            <li class="zh-only"><strong>无第三方插件：</strong> 应用未集成任何第三方统计、监测、行为分析或广告 SDK，从物理层杜绝潜在的隐私泄漏路径。</li>
-            <li class="en-only"><strong>No Third-Party SDKs:</strong> This application contains no analytics, telemetry, tracking, or advertising SDKs.</li>
-        </ul>
-        
-        <p style="margin-top: 15px; margin-bottom: 0; font-size: 12.5px; opacity: 0.8;" class="zh-only"><strong>最近更新时间：</strong> 2026年7月</p>
-        <p style="margin-top: 15px; margin-bottom: 0; font-size: 12.5px; opacity: 0.8;" class="en-only"><strong>Last Updated:</strong> July 2026</p>
-    </section>
+            <div class="contact-area">
+                <div class="email-info">
+                    <span class="zh-only">联系邮箱：</span>
+                    <span class="en-only">Support Email: </span>
+                    <a href="mailto:wh382765578@gmail.com">wh382765578@gmail.com</a>
+                </div>
+                <a class="btn-cta" href="mailto:wh382765578@gmail.com">
+                    <span class="zh-only">发送反馈</span>
+                    <span class="en-only">Contact Us</span>
+                </a>
+            </div>
+        </section>
+    </div>
+
+    <!-- 3. 【隐私政策】板块（独立页面） -->
+    <div id="privacy" class="page-section">
+        <section class="card" style="margin-top: 40px;">
+            <h2 class="zh-only">🔒 隐私政策</h2>
+            <h2 class="en-only">🔒 Privacy Policy</h2>
+            
+            <p class="zh-only">我们深知您的隐私至关重要。作为一款系统级辅助工具，WindowTo 的核心设计理念是<strong>完全本地化与零隐私接触</strong>：</p>
+            <p class="en-only">We deeply value your privacy. As a system-level utility, WindowTo is engineered from the ground up to be **completely local and privacy-safe**:</p>
+            
+            <ul>
+                <li class="zh-only"><strong>无数据收集：</strong> 应用绝不收集、不存储、不上报，也不会与任何第三方分享您的个人敏感数据。</li>
+                <li class="en-only"><strong>Zero Data Collection:</strong> The app does not collect, store, report, or share any of your personal or sensitive data.</li>
+                
+                <li class="zh-only"><strong>全本地运行：</strong> 所有的窗口管理操作和计算均完全运行在您的设备本地，应用没有服务器端，也无需网络传输。</li>
+                <li class="en-only"><strong>Processed Locally:</strong> All window management operations and layout computations are executed entirely on your local machine. No external servers or networking are required.</li>
+                
+                <li class="zh-only"><strong>无第三方插件：</strong> 应用未集成任何第三方统计、监测、行为分析或广告 SDK，从物理层杜绝潜在的隐私泄漏路径。</li>
+                <li class="en-only"><strong>No Third-Party SDKs:</strong> This application contains no analytics, telemetry, tracking, or advertising SDKs.</li>
+            </ul>
+            
+            <p style="margin-top: 15px; margin-bottom: 0; font-size: 12.5px; opacity: 0.8;" class="zh-only"><strong>最近更新时间：</strong> 2026年7月</p>
+            <p style="margin-top: 15px; margin-bottom: 0; font-size: 12.5px; opacity: 0.8;" class="en-only"><strong>Last Updated:</strong> July 2026</p>
+        </section>
+    </div>
+
 </div>
 
 <div class="footer">
@@ -569,7 +581,7 @@
 </div>
 
 <script>
-    /* === 1. 深色与浅色模式控制核心 (包含系统级感应 + 手动保存机制) === */
+    /* === 1. 主题控制（深浅色模式） === */
     function applyTheme(theme) {
         if (theme === 'dark') {
             document.documentElement.classList.add('dark');
@@ -586,34 +598,31 @@
         const currentTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
         const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
         applyTheme(nextTheme);
-        localStorage.setItem('user-theme', nextTheme); // 手动保存，永久生效
+        localStorage.setItem('user-theme', nextTheme);
     }
 
-    // 初始化深色或浅色主题
     function initializeTheme() {
         const savedTheme = localStorage.getItem('user-theme');
         if (savedTheme === 'dark' || savedTheme === 'light') {
             applyTheme(savedTheme);
         } else {
-            // 如果用户没有手动设定，则根据当前系统色彩模式来响应
             const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
             applyTheme(systemPrefersDark ? 'dark' : 'light');
         }
     }
 
-    // 监控系统色彩偏好变化，并在非手动覆盖状态下自动同步
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
         if (!localStorage.getItem('user-theme')) {
             applyTheme(e.matches ? 'dark' : 'light');
         }
     });
 
-    /* === 2. 多语言切换和下拉交互 === */
+    /* === 2. 多语言控制 === */
     function setLang(lang) {
         document.documentElement.setAttribute('lang', lang);
         localStorage.setItem('preferred-lang', lang);
         
-        // 激活语言菜单中的选中状态指示器
+        // 标记多语言下拉菜单中活跃的那项
         document.querySelectorAll('.dropdown-item').forEach(item => {
             item.classList.remove('active');
         });
@@ -633,12 +642,10 @@
         document.getElementById('lang-dropdown').classList.remove('show');
     }
 
-    // 点击网页其他地方，自动关闭多语言下拉菜单
     window.addEventListener('click', () => {
         document.getElementById('lang-dropdown').classList.remove('show');
     });
 
-    // 页面语言初始化 (默认检测，不支持则fallback回英语)
     function initializeLanguage() {
         const savedLang = localStorage.getItem('preferred-lang');
         if (savedLang === 'en' || savedLang === 'zh') {
@@ -653,45 +660,45 @@
         }
     }
 
-    /* === 3. 高级滚动监听（根据页面滚动自动点亮导航链接） === */
-    function initializeScrollSpy() {
-        const observerOptions = {
-            root: null,
-            rootMargin: '-40% 0px -40% 0px', // 当版块滚动至屏幕中段时触发
-            threshold: 0
-        };
+    /* === 3. 高级多页面路由控制 (SPA 切换逻辑) === */
+    function handleRouting() {
+        // 如果没有 Hash 值，默认进入 #home 页面
+        const hash = window.location.hash || '#home';
 
-        const observer = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const id = entry.target.getAttribute('id');
-                    // 移除所有导航高亮，仅高亮当前可见的版块
-                    document.querySelectorAll('.nav-link').forEach(link => {
-                        link.classList.remove('active');
-                        if (link.getAttribute('href') === `#${id}`) {
-                            link.classList.add('active');
-                        }
-                    });
-                }
-            });
-        }, observerOptions);
-
-        // 监听首屏、支持版块和隐私版块
-        document.querySelectorAll('.hero-section, #support, #privacy').forEach(section => {
-            observer.observe(section);
+        // 1. 隐藏所有其它板块，仅展示当前 active 的板块
+        document.querySelectorAll('.page-section').forEach(section => {
+            section.classList.remove('active');
         });
+        const targetSection = document.querySelector(hash);
+        if (targetSection) {
+            targetSection.classList.add('active');
+        }
+
+        // 2. 移除所有导航栏高亮，仅高亮当前指向该 Hash 的菜单项
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === hash) {
+                link.classList.add('active');
+            }
+        });
+
+        // 3. 切换页面时，平滑回到顶部
+        window.scrollTo(0, 0);
     }
 
-    // 页面启动执行初始化
+    // 绑定哈希路由变化事件
+    window.addEventListener('hashchange', handleRouting);
+
+    // 页面初始化执行
     initializeTheme();
     initializeLanguage();
 
-    // 页面加载完成后移除 no-transition，防止色彩过渡闪烁，并开启滚动监听
+    // 移除闪烁，触发首次路由
     window.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             document.body.classList.remove('no-transition');
         }, 100);
-        initializeScrollSpy();
+        handleRouting(); // 初始化进入对应哈希页面
     });
 </script>
 </body>
