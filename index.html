@@ -45,6 +45,11 @@
             scroll-padding-top: 86px; 
         }
 
+        /* 防闪烁过渡处理器 */
+        body.no-transition * {
+            transition: none !important;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
             line-height: 1.6;
@@ -57,6 +62,11 @@
             -webkit-font-smoothing: antialiased;
         }
 
+        /* 全局平滑过渡动效 */
+        body, .navbar, .card, .control-btn, .dropdown-menu, h1, h2, p, summary, li, span, a, .nav-link {
+            transition: background-color 0.3s ease, background-image 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
+        }
+
         /* === 1. 毛玻璃吸顶导航栏 === */
         .navbar {
             position: sticky;
@@ -67,11 +77,10 @@
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border-color);
-            transition: background 0.3s, border-color 0.3s;
         }
 
         .nav-container {
-            max-width: 800px;
+            max-width: 680px; /* 完美对齐内容栅格线 */
             margin: 0 auto;
             padding: 12px 20px;
             display: flex;
@@ -86,7 +95,6 @@
             gap: 10px;
             text-decoration: none;
             color: var(--text-color);
-            transition: opacity 0.2s;
         }
 
         .nav-brand:hover {
@@ -118,11 +126,16 @@
             font-weight: 500;
             color: var(--text-secondary);
             text-decoration: none;
-            transition: color 0.2s;
         }
 
         .nav-link:hover {
             color: var(--text-color);
+        }
+
+        /* 滚动监听自动点亮样式 */
+        .nav-link.active {
+            color: var(--nav-link-active);
+            font-weight: 600;
         }
 
         /* 右侧控制键 */
@@ -143,7 +156,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: background 0.2s, border-color 0.2s;
         }
 
         .control-btn:hover {
@@ -186,12 +198,21 @@
             font-size: 13px;
             border-radius: 6px;
             cursor: pointer;
-            transition: background 0.15s, color 0.15s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .dropdown-item:hover {
-            background: rgba(88, 86, 214, 0.1);
+            background: rgba(88, 86, 214, 0.08);
             color: var(--primary-color);
+        }
+
+        /* 下拉菜单语言激活状态 */
+        .dropdown-item.active {
+            font-weight: 600;
+            color: var(--primary-color);
+            background: rgba(88, 86, 214, 0.06);
         }
 
         /* === 3. 主页面内容排版 === */
@@ -371,9 +392,25 @@
             color: var(--text-secondary);
             opacity: 0.8;
         }
+
+        /* 适配移动端窄屏的弹性导航设计 */
+        @media (max-width: 480px) {
+            .nav-container {
+                padding: 12px 15px;
+            }
+            .nav-links {
+                gap: 12px;
+            }
+            .nav-link {
+                font-size: 12.5px;
+            }
+            .nav-title {
+                display: none; /* 屏幕极窄时隐藏文字品牌，仅留Logo，防止拥挤 */
+            }
+        }
     </style>
 </head>
-<body>
+<body class="no-transition"> <!-- 加载时带 no-transition 类以防止色彩闪烁 -->
 
 <!-- 吸顶导航栏 -->
 <nav class="navbar">
@@ -400,7 +437,7 @@
             </a>
         </div>
 
-        <!-- 右侧深浅色切换、语言下拉菜单 -->
+        <!-- 右侧控制键 -->
         <div class="nav-controls">
             <!-- 1. 深色/浅色手动切换键 -->
             <button class="control-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle Theme">
@@ -433,8 +470,8 @@
                     </svg>
                 </button>
                 <div class="dropdown-menu" id="lang-dropdown">
-                    <button class="dropdown-item" onclick="selectLang('zh')">中文 (简体)</button>
-                    <button class="dropdown-item" onclick="selectLang('en')">English</button>
+                    <button class="dropdown-item" id="lang-item-zh" onclick="selectLang('zh')">中文 (简体)</button>
+                    <button class="dropdown-item" id="lang-item-en" onclick="selectLang('en')">English</button>
                 </div>
             </div>
         </div>
@@ -575,6 +612,15 @@
     function setLang(lang) {
         document.documentElement.setAttribute('lang', lang);
         localStorage.setItem('preferred-lang', lang);
+        
+        // 激活语言菜单中的选中状态指示器
+        document.querySelectorAll('.dropdown-item').forEach(item => {
+            item.classList.remove('active');
+        });
+        const activeItem = document.getElementById(`lang-item-${lang}`);
+        if (activeItem) {
+            activeItem.classList.add('active');
+        }
     }
 
     function toggleDropdown(event) {
@@ -607,9 +653,46 @@
         }
     }
 
+    /* === 3. 高级滚动监听（根据页面滚动自动点亮导航链接） === */
+    function initializeScrollSpy() {
+        const observerOptions = {
+            root: null,
+            rootMargin: '-40% 0px -40% 0px', // 当版块滚动至屏幕中段时触发
+            threshold: 0
+        };
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.getAttribute('id');
+                    // 移除所有导航高亮，仅高亮当前可见的版块
+                    document.querySelectorAll('.nav-link').forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === `#${id}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+
+        // 监听首屏、支持版块和隐私版块
+        document.querySelectorAll('.hero-section, #support, #privacy').forEach(section => {
+            observer.observe(section);
+        });
+    }
+
     // 页面启动执行初始化
     initializeTheme();
     initializeLanguage();
+
+    // 页面加载完成后移除 no-transition，防止色彩过渡闪烁，并开启滚动监听
+    window.addEventListener('DOMContentLoaded', () => {
+        setTimeout(() => {
+            document.body.classList.remove('no-transition');
+        }, 100);
+        initializeScrollSpy();
+    });
 </script>
 </body>
 </html>
