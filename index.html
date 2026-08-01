@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WindowTo - Support & Privacy</title>
+    <!-- 引入 Inter 字体 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary-color: #5856D6;
@@ -25,7 +29,14 @@
 
         html {
             scroll-behavior: smooth;
-            overflow-y: scroll; 
+            overflow-y: auto;
+            scrollbar-width: none;       /* Firefox 隐藏滚动条 */
+            -ms-overflow-style: none;    /* IE/Edge 隐藏滚动条 */
+        }
+        
+        /* Chrome/Safari 隐藏滚动条 */
+        html::-webkit-scrollbar {
+            display: none; 
         }
 
         body.no-transition * {
@@ -37,20 +48,23 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
-            line-height: 1.6;
+            /* 换用 Inter 字体 */
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            line-height: 1.65;
             color: var(--text-color);
             background-color: var(--bg-color);
             margin: 0;
             padding: 0;
             -webkit-font-smoothing: antialiased;
             overflow-x: hidden;
+            font-size: 13.5px; /* 全局基础字体缩小 */
         }
 
         body, .navbar, .card, .control-btn, .dropdown-menu, h1, h2, h3, p, summary, li, span, a, .nav-btn-pill, .back-btn, .footer-link-btn {
             transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
         }
 
+        /* 纯黑背景 + 静态光效容器 */
         .ambient-bg {
             position: fixed;
             top: 0;
@@ -62,6 +76,31 @@
             background-color: var(--bg-color);
         }
 
+        /* 静态彩色光斑定义 - 移动至极边缘（左上角、右下角）以获得自然的边缘光晕效果 */
+        .ambient-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);       /* 保持高色彩凝聚度 */
+            opacity: 0.5;             /* 确保颜色艳丽 */
+            pointer-events: none;
+        }
+
+        .blob-1 {
+            width: 550px;
+            height: 550px;
+            background: radial-gradient(circle, rgba(88, 86, 214, 1.0) 0%, rgba(0, 199, 255, 0.4) 40%, rgba(88, 86, 214, 0) 70%);
+            top: -150px;              /* 深度移向左上角 */
+            left: -150px;
+        }
+
+        .blob-2 {
+            width: 650px;
+            height: 650px;
+            background: radial-gradient(circle, rgba(255, 45, 85, 1.0) 0%, rgba(255, 45, 85, 0) 70%);
+            bottom: -200px;           /* 深度移向右下角 */
+            right: -200px;
+        }
+
         .navbar {
             position: fixed; 
             top: 0;
@@ -69,9 +108,17 @@
             z-index: 1000;
             width: 100%;
             background: var(--nav-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            /* 背景模糊降低到 5px */
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
             border-bottom: none;
+
+            /* 保持独立图层加速，避免与底层发生混合抖动 */
+            transform: translate3d(0, 0, 0);
+            -webkit-transform: translate3d(0, 0, 0);
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            will-change: transform;
         }
 
         .nav-container {
@@ -104,6 +151,7 @@
             border: 1px solid var(--border-color);
         }
 
+        /* 保持 WindowTo 文字原有尺寸 */
         .nav-title {
             font-size: 15px;
             font-weight: 700;
@@ -116,19 +164,20 @@
             gap: 12px;
         }
 
+        /* 按钮文字缩小 */
         .nav-btn-pill, #lang-menu-btn {
             background: none;
             border: 1px solid rgba(255, 255, 255, 0.05);
             color: #8e8e93 !important;
             text-decoration: none;
-            font-size: 14px;
+            font-size: 12px;
             font-weight: 500;
-            padding: 6px 14px;
+            padding: 6px 12px;
             border-radius: 8px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            height: 36px;
+            height: 32px;
             box-sizing: border-box;
             cursor: pointer;
             transition: all 0.2s;
@@ -136,7 +185,7 @@
 
         #lang-menu-btn {
             padding: 0;
-            width: 36px;
+            width: 32px;
         }
 
         .nav-btn-pill:hover, #lang-menu-btn:hover, .nav-btn-pill.active {
@@ -200,7 +249,7 @@
             padding: 8px 12px;
             text-align: left;
             width: 100%;
-            font-size: 13px;
+            font-size: 11.5px;
             border-radius: 6px;
             cursor: pointer;
             display: flex;
@@ -221,11 +270,13 @@
             box-sizing: border-box;
         }
 
+        /* 标题上下内容间距进一步加大 */
         .hero-section {
             text-align: center;
-            padding: 60px 0 35px 0;
+            padding: 180px 0 120px 0;
         }
 
+        /* 保持 WindowTo 标题原有尺寸 */
         .hero-section h1 {
             font-size: 40px;
             font-weight: 800;
@@ -233,8 +284,9 @@
             margin: 0 0 10px 0;
         }
 
+        /* 缩小的文字 */
         .hero-subtitle {
-            font-size: 18px;
+            font-size: 15px;
             color: var(--text-secondary);
             margin: 0;
             font-weight: 400;
@@ -251,69 +303,77 @@
             box-shadow: 0 10px 30px -10px var(--shadow-color);
         }
 
+        /* 标题下方外边距进一步拉大到 280px */
         .faq-text-wrapper {
-            margin-top: 100px;
+            margin-top: 280px;
             padding: 0 10px;
             text-align: left;
         }
 
+        /* 缩小的标题 */
         .faq-text-wrapper h2 {
             font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 24px;
+            font-weight: 700;
+            margin-bottom: 30px;
             color: var(--text-color);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 12px;
         }
 
+        /* 问题模块缩紧间距 */
         .faq-item {
-            margin-bottom: 40px;
+            margin-bottom: 20px;
             border-bottom: 1px solid var(--border-color);
-            padding-bottom: 30px;
+            padding-bottom: 15px;
         }
 
         .faq-item:last-of-type {
             border-bottom: none;
             padding-bottom: 0;
+            margin-bottom: 0;
         }
 
+        /* 缩小并收紧问题标题间距 */
         .faq-q {
-            font-size: 16px;
-            font-weight: 600;
+            font-size: 14.5px;
+            font-weight: 700;
             margin-top: 0;
-            margin-bottom: 14px;
+            margin-bottom: 8px; /* 进一步收紧与下方解答的距离 */
             color: var(--text-color);
-            letter-spacing: -0.2px;
+            letter-spacing: -0.1px;
         }
 
+        /* 缩小的常见问题答案正文 */
         .faq-a {
-            font-size: 15px;
-            line-height: 1.85;
+            font-size: 13px;
+            line-height: 1.8;
             color: var(--text-secondary);
             margin: 0;
         }
 
+        /* 隐私政策页面的纯黑背景重构 */
         .privacy-modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: rgba(0, 0, 0, 0); 
-            backdrop-filter: blur(0px); 
-            -webkit-backdrop-filter: blur(0px);
+            background: #000000; /* 使用完全纯黑色背景 */
+            backdrop-filter: none; /* 移除模糊效果 */
+            -webkit-backdrop-filter: none;
             z-index: 2000; 
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
-            transition: opacity 0.6s ease, visibility 0.6s ease, background-color 0.8s ease, backdrop-filter 0.8s ease, -webkit-backdrop-filter 0.8s ease;
+            /* 保持平滑过渡效果 */
+            transition: opacity 0.6s ease, visibility 0.6s ease, background-color 0.8s ease;
         }
 
         .privacy-modal-overlay.show {
             opacity: 1;
             visibility: visible;
             pointer-events: auto;
-            background: rgba(0, 0, 0, 0.30);
-            backdrop-filter: blur(40px);
-            -webkit-backdrop-filter: blur(40px);
+            background: #000000; /* 激活时维持纯黑色 */
         }
 
         .privacy-modal-scroll {
@@ -323,6 +383,13 @@
             padding: 40px 20px 120px 20px;
             box-sizing: border-box;
             overscroll-behavior: contain;
+            scrollbar-width: none;       /* 隐藏弹窗滚动条（Firefox） */
+            -ms-overflow-style: none;    /* 隐藏弹窗滚动条（IE/Edge） */
+        }
+        
+        /* 隐藏弹窗滚动条（Chrome/Safari） */
+        .privacy-modal-scroll::-webkit-scrollbar {
+            display: none;
         }
 
         .privacy-modal-overlay .back-btn {
@@ -336,10 +403,10 @@
             gap: 6px; 
             color: var(--text-secondary) !important;
             text-decoration: none !important;
-            font-size: 14px;
+            font-size: 12px;
             font-weight: 500;
             border: 1px solid var(--border-color);
-            padding: 8px 18px;
+            padding: 8px 16px;
             border-radius: 8px;
             background: #000000 !important; 
             backdrop-filter: none !important; 
@@ -358,32 +425,38 @@
             color: inherit;
         }
 
+        /* 隐私政策内容的显示宽度缩小至 700px */
         .privacy-content-wrapper {
-            max-width: 900px;
+            max-width: 700px;
             margin: 0 auto;
             padding-top: 50px;
             text-align: left;
         }
 
+        /* 缩小的隐私政策主标题 */
         .privacy-content-wrapper h1 {
-            font-size: 32px;
+            font-size: 26px;
             font-weight: 800;
             letter-spacing: -0.5px;
-            margin-bottom: 35px;
-        }
-
-        .privacy-content-wrapper h3 {
-            font-size: 18px;
-            font-weight: 600;
-            margin-top: 40px;
-            margin-bottom: 14px;
-            color: var(--text-color);
-        }
-
-        .privacy-content-wrapper p {
-            font-size: 16px;
-            line-height: 1.85;
             margin-bottom: 30px;
+        }
+
+        /* 缩小的隐私政策小标题 */
+        .privacy-content-wrapper h3 {
+            font-size: 15px;
+            font-weight: 600;
+            margin-top: 35px;
+            margin-bottom: 12px;
+            color: var(--text-color);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 6px;
+        }
+
+        /* 缩小的隐私政策正文 */
+        .privacy-content-wrapper p {
+            font-size: 13px;
+            line-height: 1.8;
+            margin-bottom: 18px;
             color: var(--text-secondary);
         }
 
@@ -391,10 +464,13 @@
             color: var(--text-color);
         }
 
+        /* 重置默认 p 边距并控制布局间距 */
         .privacy-meta {
-            margin-top: 55px;
-            font-size: 13px;
+            margin: 0;
+            margin-top: 40px; /* 提示语与上方段落的精细间距 */
+            font-size: 11.5px;
             opacity: 0.5;
+            line-height: 1.5;
         }
 
         .contact-area {
@@ -406,18 +482,20 @@
             margin-top: 25px;
         }
 
+        /* 缩小的联系方式文字 */
         .email-info {
-            font-size: 14.5px;
+            font-size: 12.5px;
             color: var(--text-secondary);
             user-select: text;
         }
 
+        /* 缩小的反馈按钮 */
         .btn-cta {
             background-color: var(--btn-bg);
             color: var(--btn-text);
-            padding: 10px 20px;
+            padding: 8px 16px;
             border-radius: 8px;
-            font-size: 13.5px;
+            font-size: 12px;
             font-weight: 500;
             text-decoration: none;
             border: none;
@@ -439,7 +517,7 @@
         }
 
         summary {
-            font-size: 14.5px;
+            font-size: 13.5px;
             font-weight: 600;
             cursor: pointer;
             list-style: none;
@@ -456,7 +534,7 @@
 
         summary::after {
             content: '＋';
-            font-size: 12px;
+            font-size: 11px;
             color: var(--text-secondary);
             transition: transform 0.2s ease;
         }
@@ -467,7 +545,7 @@
 
         .faq-answer {
             margin-top: 12px;
-            font-size: 13.5px;
+            font-size: 12.5px;
             color: var(--text-secondary);
         }
 
@@ -478,7 +556,7 @@
             margin-top: 80px;
             padding: 24px 0 120px 0;
             border-top: 1px solid var(--border-color);
-            font-size: 11px;
+            font-size: 10.5px;
             color: var(--text-secondary);
             opacity: 0.85;
         }
@@ -503,7 +581,7 @@
             border: none;
             color: var(--text-secondary);
             cursor: pointer;
-            font-size: 11px;
+            font-size: 10.5px;
             font-weight: 500;
             padding: 0;
             text-decoration: none;
@@ -589,15 +667,16 @@
             margin-bottom: 16px;
         }
 
+        /* 缩小的更新日志标题 */
         .version-title h3 {
             margin: 0;
-            font-size: 18px;
+            font-size: 15px;
             font-weight: 700;
             color: var(--text-color);
         }
 
         .version-date {
-            font-size: 12px;
+            font-size: 11.5px;
             color: var(--text-secondary);
         }
 
@@ -606,10 +685,11 @@
             margin: 0;
         }
 
+        /* 缩小的更新日志正文 */
         .version-updates-list li {
-            font-size: 14px;
+            font-size: 12.5px;
             color: var(--text-secondary);
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             line-height: 1.6;
         }
 
@@ -622,12 +702,12 @@
             }
             .nav-btn-pill {
                 padding: 5px 10px;
-                font-size: 12px;
-                height: 32px;
+                font-size: 11px;
+                height: 30px;
             }
             #lang-menu-btn {
-                width: 32px;
-                height: 32px;
+                width: 30px;
+                height: 30px;
             }
             .dropdown-menu {
                 left: auto;
@@ -661,50 +741,151 @@
 </head>
 <body class="no-transition">
 
-<div class="ambient-bg"></div>
+<!-- 静态背景光效层：已移动至最左上角和最右下角，核心隐去只留光晕 -->
+<div class="ambient-bg">
+    <div class="ambient-blob blob-1"></div>
+    <div class="ambient-blob blob-2"></div>
+</div>
 
 <div class="container">
 
     <div id="home-section">
         <div class="hero-section">
             <h1>WindowTo</h1>
-            <p class="hero-subtitle zh-only">更高效的 macOS 窗口管理工具</p>
-            <p class="hero-subtitle en-only">A More Efficient Way to Manage macOS Windows</p>
+            <p class="hero-subtitle zh-only">更高效的窗口管理工具</p>
+            <p class="hero-subtitle en-only">An Efficient Window Manager</p>
         </div>
 
         <div class="faq-text-wrapper">
             <h2>
-                <span class="zh-only">常见问题解答</span>
-                <span class="en-only">Frequently Asked Questions</span>
+                <span class="zh-only">常见问题解答 (FAQ)</span>
+                <span class="en-only">Frequently Asked Questions (FAQ)</span>
             </h2>
             
+            <!-- Q1 -->
             <div class="faq-item">
                 <h3 class="faq-q">
-                    <span class="zh-only">为什么 WindowTo 需要“辅助功能”权限？</span>
-                    <span class="en-only">Why does WindowTo require "Accessibility" permission?</span>
-                </h3>
-                <p class="faq-a">
-                    <span class="zh-only">由于 macOS 的安全沙盒限制，任何用于跨应用调整窗口大小 and 位置的系统工具，都必须在系统设置中获得“辅助功能（Accessibility）”授权。WindowTo 仅会利用此权限来实现窗口排版逻辑，绝不会以此收集、读取或传输您的任何个人屏幕或键盘输入信息。</span>
-                    <span class="en-only">Due to macOS security sandbox restrictions, any system utility designed to resize and reposition windows of other applications must be granted "Accessibility" authorization. WindowTo only utilizes this privilege to implement window layout actions, and will never collect, read, or transmit your screen contents or keystrokes.</span>
-                </p>
-            </div>
-
-            <div class="faq-item">
-                <h3 class="faq-q">
-                    <span class="zh-only">运行有什么系统版本限制？</span>
-                    <span class="en-only">What are the system requirements?</span>
+                    <span class="zh-only">Q1：为什么 WindowTo 需要“无障碍”权限？</span>
+                    <span class="en-only">Q1: Why does WindowTo require "Accessibility" permission?</span>
                 </h3>
                 <div class="faq-a">
-                    <p class="zh-only">WindowTo 深度适配了 macOS 的底层 API。为了获得最极致、流畅的窗口排版体验，我们建议您的系统运行在 macOS 12.0 或更高版本。</p>
-                    <p class="en-only">WindowTo is deeply optimized for native macOS APIs. To ensure the smoothest window management experience, we recommend using macOS 12.0 or later.</p>
+                    <div class="zh-only">
+                        <ul style="padding-left: 20px; margin: 0 0 10px 0;">
+                            <li style="margin-bottom: 8px;"><strong>技术原理：</strong>在 macOS 的安全沙盒（Sandbox）机制下，常规应用程序是完全隔离的，无法获知其他运行中应用（如 Safari、Finder等）的状态，更无法控制它们。WindowTo 需要通过系统的无障碍 API（AXUIElement）来获取当前被拖拽窗口的控制权。</li>
+                            <li style="margin-bottom: 8px;"><strong>用途局限：</strong>此权限仅用于识别您正在拖拽的窗口句柄，并在您释放鼠标时向目标应用发送“移动窗口”和“调整大小”的指令。</li>
+                            <li style="margin-bottom: 8px;"><strong>安全承诺：</strong>WindowTo 仅关注窗口的外壳几何坐标（即位置和宽高）。应用没有申请任何输入监控、键盘记录或硬盘写入权限，绝不会读取、记录或传输您窗口内的任何文本、账号密码或输入内容。</li>
+                        </ul>
+                    </div>
+                    <div class="en-only">
+                        <ul style="padding-left: 20px; margin: 0 0 10px 0;">
+                            <li style="margin-bottom: 8px;"><strong>How it works:</strong> Under macOS sandboxing, standard apps are completely isolated and cannot detect or control other active windows (like Safari or Finder). WindowTo uses the system's Accessibility API (<code>AXUIElement</code>) to gain control over the dragged window.</li>
+                            <li style="margin-bottom: 8px;"><strong>Usage:</strong> This permission is strictly used to identify the window you are dragging and resize/reposition it upon mouse release.</li>
+                            <li style="margin-bottom: 8px;"><strong>Security:</strong> WindowTo only accesses window geometry (position and dimensions). The app does not request or use input monitoring, keystroke logging, or disk writing permissions, and never reads or transmits your screen content or text.</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
+
+            <!-- Q2 -->
+            <div class="faq-item">
+                <h3 class="faq-q">
+                    <span class="zh-only">Q2：为什么应用有时还会申请“屏幕录制”权限？</span>
+                    <span class="en-only">Q2: Why does the app request "Screen Recording" permission?</span>
+                </h3>
+                <div class="faq-a">
+                    <div class="zh-only">
+                        <ul style="padding-left: 20px; margin: 0 0 10px 0;">
+                            <li style="margin-bottom: 8px;"><strong>用途说明：</strong>当您启用了“使用屏幕快照”功能时，系统会弹出该权限申请。WindowTo 需要利用系统的图形捕捉 API（如 CGDisplayCreateImage），在您唤出顶部面板时，在卡片上为您渲染当前所有显示器桌面的实时微缩图像，帮助您更准确地识别投递目标。</li>
+                            <li style="margin-bottom: 8px;"><strong>可选性：</strong>此权限并非强制。如果您对隐私有较高要求，可以直接在 macOS 的系统设置中拒绝该权限，或在 WindowTo 设置中关闭“实时预览”开关。应用会自动回退到使用内置的精美静态壁纸作为卡片背景，这完全不影响核心的分屏与窗口移动功能。</li>
+                            <li style="margin-bottom: 8px;"><strong>安全承诺：</strong>缩略图的处理完全在系统内存（RAM）中即时完成，随用随销，既不会保存到您的本地硬盘，也不会通过网络进行任何上传。</li>
+                        </ul>
+                    </div>
+                    <div class="en-only">
+                        <ul style="padding-left: 20px; margin: 0 0 10px 0;">
+                            <li style="margin-bottom: 8px;"><strong>Purpose:</strong> If you enable "Screen Snapshots," WindowTo requests this permission to generate real-time desktop thumbnails when you summon the top panel, helping you easily identify drop targets.</li>
+                            <li style="margin-bottom: 8px;"><strong>Optional:</strong> This permission is entirely optional. You can safely deny it or turn off "Real-time Preview" in the settings. The app will fall back to elegant static backgrounds without affecting core snapping features.</li>
+                            <li style="margin-bottom: 8px;"><strong>Security:</strong> Thumbnail processing occurs entirely in-memory (RAM) and is discarded immediately. It is never saved to your disk or uploaded over the network.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q3 -->
+            <div class="faq-item">
+                <h3 class="faq-q">
+                    <span class="zh-only">Q3：如果我已经授予了权限，但应用依然提示未授权或无法使用，该怎么办？</span>
+                    <span class="en-only">Q3: What if permissions are granted but the app still says unauthorized?</span>
+                </h3>
+                <div class="faq-a">
+                    <p class="zh-only" style="margin-bottom: 12px;">这是 macOS 系统在权限数据库管理上偶尔会出现的已知 Bug（尤其是在系统大版本升级或应用频繁更新后）。您可以尝试通过以下步骤进行重置：</p>
+                    <p class="en-only" style="margin-bottom: 12px;">This is a known macOS permission database bug (common after system upgrades or app updates). You can reset permissions with these steps:</p>
+                    
+                    <ol class="zh-only" style="padding-left: 20px; margin: 0 0 10px 0; line-height: 1.8;">
+                        <li style="margin-bottom: 6px;">打开系统的 <strong>系统设置</strong> -> <strong>隐私与安全性</strong> -> <strong>辅助功能</strong>（或屏幕录制）。</li>
+                        <li style="margin-bottom: 6px;">在列表中找到 <strong>WindowTo</strong>，先将其开关关闭，然后再重新开启。</li>
+                        <li style="margin-bottom: 6px;">如果依然无效，请在列表中选中 <strong>WindowTo</strong>，点击下方的 <strong>“—”（减号）</strong> 将其彻底移除。</li>
+                        <li style="margin-bottom: 6px;">重新启动 WindowTo，按照提示重新勾选授予即可。</li>
+                    </ol>
+                    <ol class="en-only" style="padding-left: 20px; margin: 0 0 10px 0; line-height: 1.8;">
+                        <li style="margin-bottom: 6px;">Go to <strong>System Settings</strong> -> <strong>Privacy & Security</strong> -> <strong>Accessibility</strong> (or Screen Recording).</li>
+                        <li style="margin-bottom: 6px;">Locate <strong>WindowTo</strong>, turn the toggle off, then turn it back on.</li>
+                        <li style="margin-bottom: 6px;">If it still fails, select <strong>WindowTo</strong> and click the <strong>"—" (minus)</strong> button to remove it completely.</li>
+                        <li style="margin-bottom: 6px;">Relaunch <strong>WindowTo</strong> and grant permissions again.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- Q4 -->
+            <div class="faq-item">
+                <h3 class="faq-q">
+                    <span class="zh-only">Q4：运行 WindowTo 有什么系统版本限制？支持 M 系列芯片吗？</span>
+                    <span class="en-only">Q4: What are the system requirements? Does it support Apple Silicon?</span>
+                </h3>
+                <div class="faq-a">
+                    <div class="zh-only">
+                        <ul style="padding-left: 20px; margin: 0 0 10px 0;">
+                            <li style="margin-bottom: 8px;"><strong>系统要求：</strong>WindowTo 深度适配了 macOS 的原生底层 API。为了保证最流畅的窗口过渡动画和分屏体验，我们建议您的系统版本运行在 <strong>macOS 14.0</strong> 或更高版本。</li>
+                            <li style="margin-bottom: 8px;"><strong>架构支持：</strong>WindowTo 采用原生 Swift 语言编写，提供原生通用二进制版本。完美、原生支持 <strong>Apple Silicon</strong>（包括 M1、M2、M3、M4 等系列芯片） 以及 Intel 处理器，无需通过 Rosetta 2 转译，运行能效高。</li>
+                        </ul>
+                    </div>
+                    <div class="en-only">
+                        <ul style="padding-left: 20px; margin: 0 0 10px 0;">
+                            <li style="margin-bottom: 8px;"><strong>OS Requirements:</strong> Highly optimized for native APIs, we recommend <strong>macOS 14.0 or later</strong> for the smoothest animations and snapping experience.</li>
+                            <li style="margin-bottom: 8px;"><strong>Architecture:</strong> Written natively in Swift as a Universal Binary, it natively supports both <strong>Apple Silicon</strong> (M1, M2, M3, M4, etc.) and Intel processors with peak energy efficiency and no translation required.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q5 -->
+            <div class="faq-item">
+                <h3 class="faq-q">
+                    <span class="zh-only">Q5：WindowTo 经常驻留后台，会对电池续航或系统性能造成影响吗？</span>
+                    <span class="en-only">Q5: Does running WindowTo in the background drain battery or slow down performance?</span>
+                </h3>
+                <div class="faq-a">
+                    <div class="zh-only">
+                        <ul style="padding-left: 20px; margin: 0 0 10px 0;">
+                            <li style="margin-bottom: 8px;"><strong>极简开销：</strong>我们在代码逻辑中加入了高频事件的节流机制（Throttling 保护）。在您未进行窗口拖拽或没有按下快捷键的日常状态下，WindowTo 会自动进入静默休眠状态， CPU 占用率接近 0%，内存占用极低。</li>
+                            <li style="margin-bottom: 8px;"><strong>能耗优化：</strong>只有当您真正开始拖拽窗口并触发快捷键时，窗口位置计算和卡片渲染模块才会被短暂激活。因此，无论是日常使用还是长途办公，它几乎不会对您 Mac 的电池续航造成任何可感知的负面影响。</li>
+                        </ul>
+                    </div>
+                    <div class="en-only">
+                        <ul style="padding-left: 20px; margin: 0 0 10px 0;">
+                            <li style="margin-bottom: 8px;"><strong>Minimal Overhead:</strong> With built-in high-frequency event throttling, WindowTo sits completely idle when you aren't dragging windows. CPU usage is near 0% with negligible memory footprint.</li>
+                            <li style="margin-bottom: 8px;"><strong>Battery Optimization:</strong> Layout calculations and graphics modules activate only during active window drags. It has virtually zero impact on your Mac's battery life.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
         <div class="footer">
             <div class="footer-left">
                 <button class="footer-link-btn" onclick="openModal('version-modal')">
-                    <span>v1.0.1 (macOS 14 +)</span>
+                    <span class="zh-only">版本：v1.0.1 (macOS 14 +)</span>
+                    <span class="en-only">Version: v1.0.1 (macOS 14 +)</span>
                 </button>
             </div>
             <div class="footer-center">
@@ -732,7 +913,8 @@
 
         <div class="nav-right">
             <a href="#privacy" class="nav-btn-pill" id="nav-link-privacy">
-                <span>隐私政策</span>
+                <span class="zh-only">隐私政策</span>
+                <span class="en-only">Privacy Policy</span>
             </a>
 
             <div class="dropdown" onmouseleave="resetDropdown()">
@@ -763,30 +945,109 @@
     </button>
     
     <div class="privacy-modal-scroll">
+        <!-- max-width 保持 700px -->
         <div class="privacy-content-wrapper">
-            <h1 class="zh-only">WindowTo隐私政策</h1>
+            <h1 class="zh-only">WindowTo 隐私政策</h1>
             <h1 class="en-only">WindowTo Privacy Policy</h1>
             
-            <p class="zh-only">我们深知您的隐私至关重要。作为一款系统级辅助工具，WindowTo 的核心设计理念是<strong>完全本地化与零隐私接触</strong>：</p>
-            <p class="en-only">We deeply value your privacy. As a system-level utility, WindowTo is engineered from the ground up to be **completely local and privacy-safe**:</p>
+            <p class="zh-only">我们深知您的隐私至关重要。作为一款系统级辅助工具，WindowTo 的核心设计理念是<strong>完全本地化与零隐私接触</strong>。我们承诺在为您提供高效窗口管理服务的同时，绝不以任何形式侵害您的个人隐私。本隐私政策旨在向您清晰地说明 WindowTo 如何处理（或不处理）您的数据。</p>
+            <p class="en-only">Your privacy is paramount. Designed as a fully localized utility, WindowTo operates under a <strong>zero-privacy-contact</strong> principle. We manage your windows without collecting, storing, or transmitting any of your data. This policy explains our simple approach to privacy.</p>
             
-            <h3 class="zh-only">无数据收集</h3>
-            <h3 class="en-only">Zero Data Collection</h3>
-            <p class="zh-only">应用绝不收集、不存储、不上报，也不会与任何第三方分享您的个人敏感数据。</p>
-            <p class="en-only">The app does not collect, store, report, or share any of your personal or sensitive data.</p>
+            <h3 class="zh-only">一、 核心隐私原则</h3>
+            <h3 class="en-only">I. Core Privacy Principles</h3>
+            <div class="zh-only">
+                <ul style="padding-left: 20px; margin: 0 0 20px 0;">
+                    <li style="margin-bottom: 8px;"><strong>无数据收集：</strong>本应用不会收集、不存储、不上报，也不会与任何第三方分享您的个人敏感数据、设备信息 or 使用习惯。</li>
+                    <li style="margin-bottom: 8px;"><strong>全本地运行：</strong>所有的窗口管理、位置计算以及图形渲染均完全运行在您的设备本地。应用没有服务器端，日常运行不需要网络连接，也无任何网络传输代码。</li>
+                    <li style="margin-bottom: 8px;"><strong>无第三方组件：</strong>应用未集成任何第三方统计、行为分析、广告或崩溃日志收集 SDK（如 Firebase, Umeng 等），从物理层面上杜绝了潜在的数据外泄风险。</li>
+                </ul>
+            </div>
+            <div class="en-only">
+                <ul style="padding-left: 20px; margin: 0 0 20px 0;">
+                    <li style="margin-bottom: 8px;"><strong>Zero Collection:</strong> The app does not collect, store, or share any personal data, device identifiers, or usage telemetry.</li>
+                    <li style="margin-bottom: 8px;"><strong>100% Local Processing:</strong> All window layouts, coordinates, and graphics are processed entirely on your local device. We have no external servers and require no internet connection.</li>
+                    <li style="margin-bottom: 8px;"><strong>No Third-Party SDKs:</strong> The app contains no third-party libraries (such as Firebase or analytics SDKs) for tracking or telemetry, eliminating physical leak vectors.</li>
+                </ul>
+            </div>
+
+            <h3 class="zh-only">二、 敏感系统权限的合规使用说明</h3>
+            <h3 class="en-only">II. System Permission Usage</h3>
+            <p class="zh-only">为了实现便捷的窗口拖拽分屏功能，WindowTo 在首次运行时需要您授予特定的 macOS 系统权限。我们对这些权限的使用范围做出如下严格限定与承诺：</p>
+            <p class="en-only">To enable convenient window dragging and snapping, WindowTo requires you to grant specific macOS system permissions upon its first launch. We strictly limit and commit to the following scopes of usage for these permissions:</p>
             
-            <h3 class="zh-only">全本地运行</h3>
-            <h3 class="en-only">Processed Locally</h3>
-            <p class="zh-only">所有的窗口管理操作和计算均完全运行在您的设备本地，应用没有服务器端，也无需网络传输。</p>
-            <p class="en-only">All window management operations and layout computations are executed entirely on your local machine. No external servers or networking are required.</p>
+            <h4 class="zh-only" style="font-size: 13px; font-weight: 600; margin-top: 20px; margin-bottom: 10px; color: var(--text-color);">1. 无障碍权限（Accessibility）</h4>
+            <h4 class="en-only" style="font-size: 13px; font-weight: 600; margin-top: 20px; margin-bottom: 10px; color: var(--text-color);">1. Accessibility</h4>
+            <div class="zh-only">
+                <ul style="padding-left: 20px; margin: 0 0 20px 0;">
+                    <li style="margin-bottom: 8px;"><strong>使用目的：</strong>仅用于在您拖动窗口时，识别当前鼠标指针下方的活动窗口（通过 macOS 的 <code>AXUIElement</code> 接口），并在您释放鼠标时，自动调整该窗口的大小和屏幕坐标。</li>
+                    <li style="margin-bottom: 8px;"><strong>隐私承诺：</strong>我们仅获取窗口的控制句柄以及空间位置信息。绝不读取、不监视、不记录任何窗口内部显示的文本、输入内容、账号密码等敏感隐私信息。</li>
+                </ul>
+            </div>
+            <div class="en-only">
+                <ul style="padding-left: 20px; margin: 0 0 20px 0;">
+                    <li style="margin-bottom: 8px;"><strong>Purpose:</strong> Required to identify the window under your cursor (via <code>AXUIElement</code>) and apply layouts (resize/reposition) upon mouse release.</li>
+                    <li style="margin-bottom: 8px;"><strong>Privacy:</strong> WindowTo only interacts with window handles and dimensions. It never reads, monitors, or logs any text, inputs, or passwords inside your windows.</li>
+                </ul>
+            </div>
+
+            <h4 class="zh-only" style="font-size: 13px; font-weight: 600; margin-top: 20px; margin-bottom: 10px; color: var(--text-color);">2. 屏幕录制/屏幕捕捉权限（Screen Recording）</h4>
+            <h4 class="en-only" style="font-size: 13px; font-weight: 600; margin-top: 20px; margin-bottom: 10px; color: var(--text-color);">2. Screen Recording</h4>
+            <div class="zh-only">
+                <ul style="padding-left: 20px; margin: 0 0 20px 0;">
+                    <li style="margin-bottom: 8px;"><strong>使用目的：</strong>若您启用了“使用桌面快照”功能，应用需要此权限来捕捉当前显示器画面的缩略图，并将其呈现在顶部的控制面板中，帮助您直观地确认投递目标。</li>
+                    <li style="margin-bottom: 8px;"><strong>隐私承诺：</strong>
+                        <ul style="padding-left: 20px; margin: 6px 0 0 0; list-style-type: circle;">
+                            <li style="margin-bottom: 4px;">屏幕画面的捕捉与缩放处理完全在设备的运行内存（RAM）中即时完成，随用随销。</li>
+                            <li style="margin-bottom: 4px;">生成图像的过程无需网络支持，且这些图像绝不会以文件形式保存至您的硬盘，亦绝不会上传至任何远程服务器。</li>
+                            <li style="margin-bottom: 4px;">如果您介意此权限，您完全可以在应用设置中关闭“使用桌面快照”功能，应用将使用静态背景图代替，且不影响核心功能的使用。</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="en-only">
+                <ul style="padding-left: 20px; margin: 0 0 20px 0;">
+                    <li style="margin-bottom: 8px;"><strong>Purpose:</strong> Used only if "Screen Snapshots" is enabled to render active display thumbnails in the control panel, helping you visually target layouts.</li>
+                    <li style="margin-bottom: 8px;"><strong>Privacy:</strong>
+                        <ul style="padding-left: 20px; margin: 6px 0 0 0; list-style-type: circle;">
+                            <li style="margin-bottom: 4px;">Captures are processed entirely in active memory (RAM) and discarded instantly.</li>
+                            <li style="margin-bottom: 4px;">Images are never saved as files to your disk, nor uploaded anywhere.</li>
+                            <li style="margin-bottom: 4px;">You can disable this feature anytime to fall back to static backgrounds with zero core feature loss.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <h3 class="zh-only">三、 本地数据存储</h3>
+            <h3 class="en-only">III. Local Data Storage</h3>
+            <p class="zh-only">我们承诺运行配置仅在本地保存必要的个性化偏好：</p>
+            <p class="en-only">Configs and preferences are saved exclusively on your local device:</p>
+            <div class="zh-only">
+                <ul style="padding-left: 20px; margin: 0 0 20px 0;">
+                    <li style="margin-bottom: 8px;"><strong>配置内容：</strong>包括您自定义的快捷触发键、不同显示器的分屏预设、边缘间距大小以及上一次投递的选择记录。</li>
+                    <li style="margin-bottom: 8px;"><strong>存储媒介：</strong>这些配置数据通过系统的沙盒机制（<code>UserDefaults</code>）保存在您本机的偏好设置文件中。</li>
+                    <li style="margin-bottom: 8px;"><strong>数据迁移与删除：</strong>这些数据不会同步至任何云端。当您在 macOS 中卸载或彻底删除本应用时，上述本地配置文件也将一并被系统清除。</li>
+                </ul>
+            </div>
+            <div class="en-only">
+                <ul style="padding-left: 20px; margin: 0 0 20px 0;">
+                    <li style="margin-bottom: 8px;"><strong>Data Stored:</strong> Customized shortcuts, layout presets, margin sizes, and recent selections.</li>
+                    <li style="margin-bottom: 8px;"><strong>Medium:</strong> Stored locally in sandbox preferences (<code>UserDefaults</code>).</li>
+                    <li style="margin-bottom: 8px;"><strong>Retention:</strong> No data is synced to any cloud. Uninstalling the app completely removes all local settings files.</li>
+                </ul>
+            </div>
+
+            <h3 class="zh-only">四、 政策的更新与适用</h3>
+            <h3 class="en-only">IV. Policy Updates</h3>
+            <p class="zh-only">随着 macOS 系统版本的更新或应用功能的迭代，我们可能会不时对本隐私政策进行微调。然而，无论功能如何变化，<strong>“本地运行、不收集数据”</strong>的基本原则将始终不发生改变。</p>
+            <p class="en-only">We may refine this policy to align with macOS upgrades or feature iterations. Our core principle—<strong>local execution and zero collection</strong>—remains absolute.</p>
             
-            <h3 class="zh-only">无第三方插件</h3>
-            <h3 class="en-only">No Third-Party SDKs</h3>
-            <p class="zh-only">应用未集成任何第三方统计、监测、行为分析或广告 SDK，从物理层杜绝潜在的隐私泄漏路径。</p>
-            <p class="en-only">This application contains no analytics, telemetry, tracking, or advertising SDKs.</p>
-            
-            <p class="privacy-meta zh-only">最近更新时间：2026年7月</p>
-            <p class="privacy-meta en-only">Last Updated: July 2026</p>
+            <!-- 反馈提示已完美移至此处 -->
+            <p class="privacy-meta zh-only">若您对本隐私政策或 WindowTo 的权限使用有任何疑问、意见或建议，请在主页底部点击“反馈与建议”与我们联系。</p>
+            <p class="privacy-meta en-only">For any questions, suggestions, or concerns regarding this policy, please reach out to us via "Feedback & Suggestions" at the bottom of the homepage.</p>
+
+            <!-- 最近更新时间紧密结合（CSS中重置 margin 且 margin-top 设为 4px） -->
+            <p class="privacy-meta zh-only" style="margin-top: 4px;">最近更新时间：2026年7月</p>
+            <p class="privacy-meta en-only" style="margin-top: 4px;">Last Updated: July 2026</p>
         </div>
     </div>
 </div>
@@ -795,19 +1056,19 @@
     <div class="modal-content card">
         <button class="modal-close-btn" onclick="closeModal('feedback-modal')" title="Close">&times;</button>
         <h2 class="zh-only">反馈与建议</h2>
-        <h2 class="en-only">Feedback & Suggestions</h2>
+        <h2 class="en-only">Feedback & Support</h2>
         
         <p class="zh-only">在使用 <strong>WindowTo</strong> 的过程中遇到任何疑问、Bug，或是想提交功能建议？欢迎随时联系我们，我们的团队通常会在 24 小时内为您答复。</p>
-        <p class="en-only">Having questions, encountering bugs, or wanting to request a feature? Feel free to contact us. We usually get back to you within 24 hours.</p>
+        <p class="en-only">Encountering bugs, have questions, or want to suggest features for <strong>WindowTo</strong>? Reach out anytime—we typically respond within 24 hours.</p>
         
         <div class="contact-area">
             <div class="email-info">
                 <span class="zh-only">联系邮箱：wh382765578@gmail.com</span>
-                <span class="en-only">Support Email: wh382765578@gmail.com</span>
+                <span class="en-only">Email: wh382765578@gmail.com</span>
             </div>
             <button class="btn-cta" onclick="copyEmail(this)">
                 <span class="zh-only">复制邮箱地址</span>
-                <span class="en-only">Copy Email Address</span>
+                <span class="en-only">Copy Email</span>
             </button>
         </div>
     </div>
@@ -826,11 +1087,11 @@
             </div>
             <ul class="version-updates-list">
                 <li class="zh-only">首个公开版本正式发布，全面深度适配 macOS 14+。</li>
-                <li class="en-only">Initial public release, fully optimized for macOS 14+.</li>
+                <li class="en-only">Initial release, fully optimized for macOS 14+.</li>
                 <li class="zh-only">带来流畅、精准的全局窗口对齐排版及多显示器自适应管理。</li>
-                <li class="en-only">Brings seamless and precise global window snapping and multi-display adaptation.</li>
+                <li class="en-only">Features fluid, precise window snapping and seamless multi-monitor management.</li>
                 <li class="zh-only">不依赖服务器，全部计算在本地设备完成，零数据收集保护用户隐私。</li>
-                <li class="en-only">Processes all computations 100% locally with zero data collection, guaranteeing maximum privacy.</li>
+                <li class="en-only">Operates 100% locally with zero tracking or data collection to protect your privacy.</li>
             </ul>
         </div>
     </div>
@@ -882,7 +1143,9 @@
             }
             modal.classList.add('show');
             const privacyBtn = document.getElementById('nav-link-privacy');
-            if (privacyBtn) privacyBtn.classList.add('active');
+            if (privacyBtn) {
+                privacyBtn.classList.add('active');
+            }
         }
     }
 
@@ -890,16 +1153,25 @@
         const modal = document.getElementById('privacy-modal');
         if (modal && modal.classList.contains('show')) {
             modal.classList.remove('show');
-            document.documentElement.style.scrollBehavior = 'auto';
-            document.body.style.position = '';
-            document.body.style.top = '';
-            document.body.style.width = '';
-            window.scrollTo(0, bodyScrollTop); 
+            
+            // 完美保留淡出过渡效果：等 0.6 秒渐变动画结束后，再恢复底层的滚动和定位，防止背景突然跳动打断动画
             setTimeout(() => {
-                document.documentElement.style.scrollBehavior = '';
-            }, 0);
+                if (!modal.classList.contains('show')) {
+                    document.documentElement.style.scrollBehavior = 'auto';
+                    document.body.style.position = '';
+                    document.body.style.top = '';
+                    document.body.style.width = '';
+                    window.scrollTo(0, bodyScrollTop); 
+                    setTimeout(() => {
+                        document.documentElement.style.scrollBehavior = '';
+                    }, 0);
+                }
+            }, 600);
+
             const privacyBtn = document.getElementById('nav-link-privacy');
-            if (privacyBtn) privacyBtn.classList.remove('active');
+            if (privacyBtn) {
+                privacyBtn.classList.remove('active');
+            }
         }
     }
 
