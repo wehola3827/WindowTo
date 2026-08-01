@@ -4,12 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WindowTo - Support & Privacy</title>
-    
-    <!-- 网页图标 -->
     <link rel="icon" type="image/png" href="WindowToAppIcon.png">
     <link rel="apple-touch-icon" href="WindowToAppIcon.png">
-    
-    <!-- 引入 Inter 字体 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -35,11 +31,10 @@
         html {
             scroll-behavior: smooth;
             overflow-y: auto;
-            scrollbar-width: none;       /* Firefox 隐藏滚动条 */
-            -ms-overflow-style: none;    /* IE/Edge 隐藏滚动条 */
+            scrollbar-width: none;
+            -ms-overflow-style: none;
         }
         
-        /* Chrome/Safari 隐藏滚动条 */
         html::-webkit-scrollbar {
             display: none; 
         }
@@ -53,7 +48,6 @@
         }
 
         body {
-            /* 换用 Inter 字体 */
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
             line-height: 1.65;
             color: var(--text-color);
@@ -62,14 +56,13 @@
             padding: 0;
             -webkit-font-smoothing: antialiased;
             overflow-x: hidden;
-            font-size: 13.5px; /* 全局基础字体缩小 */
+            font-size: 13.5px;
         }
 
         body, .navbar, .card, .control-btn, .dropdown-menu, h1, h2, h3, p, summary, li, span, a, .nav-btn-pill, .back-btn, .footer-link-btn {
             transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
         }
 
-        /* 纯黑背景 + 静态光效容器 */
         .ambient-bg {
             position: fixed;
             top: 0;
@@ -81,12 +74,11 @@
             background-color: var(--bg-color);
         }
 
-        /* 静态彩色光斑定义 - 移动至极边缘（左上角、右下角）以获得自然的边缘光晕效果 */
         .ambient-blob {
             position: absolute;
             border-radius: 50%;
-            filter: blur(80px);       /* 保持高色彩凝聚度 */
-            opacity: 0.5;             /* 确保颜色艳丽 */
+            filter: blur(80px);
+            opacity: 0.5;
             pointer-events: none;
         }
 
@@ -94,7 +86,7 @@
             width: 550px;
             height: 550px;
             background: radial-gradient(circle, rgba(88, 86, 214, 1.0) 0%, rgba(0, 199, 255, 0.4) 40%, rgba(88, 86, 214, 0) 70%);
-            top: -150px;              /* 深度移向左上角 */
+            top: -150px;
             left: -150px;
         }
 
@@ -102,7 +94,7 @@
             width: 650px;
             height: 650px;
             background: radial-gradient(circle, rgba(255, 45, 85, 1.0) 0%, rgba(255, 45, 85, 0) 70%);
-            bottom: -200px;           /* 深度移向右下角 */
+            bottom: -200px;
             right: -200px;
         }
 
@@ -113,12 +105,9 @@
             z-index: 1000;
             width: 100%;
             background: var(--nav-bg);
-            /* 背景模糊降低到 5px */
             backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(5px);
             border-bottom: none;
-
-            /* 保持独立图层加速，避免与底层发生混合抖动 */
             transform: translate3d(0, 0, 0);
             -webkit-transform: translate3d(0, 0, 0);
             backface-visibility: hidden;
@@ -156,7 +145,6 @@
             border: 1px solid var(--border-color);
         }
 
-        /* 保持 WindowTo 文字原有尺寸 */
         .nav-title {
             font-size: 15px;
             font-weight: 700;
@@ -169,7 +157,6 @@
             gap: 12px;
         }
 
-        /* 按钮文字缩小 */
         .nav-btn-pill, #lang-menu-btn {
             background: none;
             border: 1px solid rgba(255, 255, 255, 0.05);
@@ -275,13 +262,11 @@
             box-sizing: border-box;
         }
 
-        /* 标题上下内容间距进一步加大 */
         .hero-section {
             text-align: center;
             padding: 180px 0 120px 0;
         }
 
-        /* 保持 WindowTo 标题原有尺寸 */
         .hero-section h1 {
             font-size: 40px;
             font-weight: 800;
@@ -289,7 +274,6 @@
             margin: 0 0 10px 0;
         }
 
-        /* 缩小的文字 */
         .hero-subtitle {
             font-size: 15px;
             color: var(--text-secondary);
@@ -308,14 +292,12 @@
             box-shadow: 0 10px 30px -10px var(--shadow-color);
         }
 
-        /* 标题下方外边距进一步拉大到 280px */
         .faq-text-wrapper {
             margin-top: 280px;
             padding: 0 10px;
             text-align: left;
         }
 
-        /* 缩小的标题 */
         .faq-text-wrapper h2 {
             font-size: 18px;
             font-weight: 700;
@@ -325,7 +307,6 @@
             padding-bottom: 12px;
         }
 
-        /* 问题模块缩紧间距 */
         .faq-item {
             margin-bottom: 20px;
             border-bottom: 1px solid var(--border-color);
@@ -338,17 +319,15 @@
             margin-bottom: 0;
         }
 
-        /* 缩小并收紧问题标题间距 */
         .faq-q {
             font-size: 14.5px;
             font-weight: 700;
             margin-top: 0;
-            margin-bottom: 8px; /* 进一步收紧与下方解答的距离 */
+            margin-bottom: 8px;
             color: var(--text-color);
             letter-spacing: -0.1px;
         }
 
-        /* 缩小的常见问题答案正文 */
         .faq-a {
             font-size: 13px;
             line-height: 1.8;
@@ -356,21 +335,19 @@
             margin: 0;
         }
 
-        /* 隐私政策页面的纯黑背景重构 */
         .privacy-modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: #000000; /* 使用完全纯黑色背景 */
-            backdrop-filter: none; /* 移除模糊效果 */
+            background: #000000;
+            backdrop-filter: none;
             -webkit-backdrop-filter: none;
             z-index: 2000; 
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
-            /* 保持平滑过渡效果 */
             transition: opacity 0.6s ease, visibility 0.6s ease, background-color 0.8s ease;
         }
 
@@ -378,7 +355,7 @@
             opacity: 1;
             visibility: visible;
             pointer-events: auto;
-            background: #000000; /* 激活时维持纯黑色 */
+            background: #000000;
         }
 
         .privacy-modal-scroll {
@@ -388,11 +365,10 @@
             padding: 40px 20px 120px 20px;
             box-sizing: border-box;
             overscroll-behavior: contain;
-            scrollbar-width: none;       /* 隐藏弹窗滚动条（Firefox） */
-            -ms-overflow-style: none;    /* 隐藏弹窗滚动条（IE/Edge） */
+            scrollbar-width: none;
+            -ms-overflow-style: none;
         }
         
-        /* 隐藏弹窗滚动条（Chrome/Safari） */
         .privacy-modal-scroll::-webkit-scrollbar {
             display: none;
         }
@@ -430,7 +406,6 @@
             color: inherit;
         }
 
-        /* 隐私政策内容的显示宽度缩小至 700px */
         .privacy-content-wrapper {
             max-width: 700px;
             margin: 0 auto;
@@ -438,7 +413,6 @@
             text-align: left;
         }
 
-        /* 缩小的隐私政策主标题 */
         .privacy-content-wrapper h1 {
             font-size: 26px;
             font-weight: 800;
@@ -446,7 +420,6 @@
             margin-bottom: 30px;
         }
 
-        /* 缩小的隐私政策小标题 */
         .privacy-content-wrapper h3 {
             font-size: 15px;
             font-weight: 600;
@@ -457,7 +430,6 @@
             padding-bottom: 6px;
         }
 
-        /* 缩小的隐私政策正文 */
         .privacy-content-wrapper p {
             font-size: 13px;
             line-height: 1.8;
@@ -469,10 +441,9 @@
             color: var(--text-color);
         }
 
-        /* 重置默认 p 边距并控制布局间距 */
         .privacy-meta {
             margin: 0;
-            margin-top: 40px; /* 提示语与上方段落的精细间距 */
+            margin-top: 40px;
             font-size: 11.5px;
             opacity: 0.5;
             line-height: 1.5;
@@ -487,14 +458,12 @@
             margin-top: 25px;
         }
 
-        /* 缩小的联系方式文字 */
         .email-info {
             font-size: 12.5px;
             color: var(--text-secondary);
             user-select: text;
         }
 
-        /* 缩小的反馈按钮 */
         .btn-cta {
             background-color: var(--btn-bg);
             color: var(--btn-text);
@@ -672,7 +641,6 @@
             margin-bottom: 16px;
         }
 
-        /* 缩小的更新日志标题 */
         .version-title h3 {
             margin: 0;
             font-size: 15px;
@@ -690,7 +658,6 @@
             margin: 0;
         }
 
-        /* 缩小的更新日志正文 */
         .version-updates-list li {
             font-size: 12.5px;
             color: var(--text-secondary);
@@ -746,14 +713,12 @@
 </head>
 <body class="no-transition">
 
-<!-- 静态背景光效层：已移动至最左上角和最右下角，核心隐去只留光晕 -->
 <div class="ambient-bg">
     <div class="ambient-blob blob-1"></div>
     <div class="ambient-blob blob-2"></div>
 </div>
 
 <div class="container">
-
     <div id="home-section">
         <div class="hero-section">
             <h1>WindowTo</h1>
@@ -767,7 +732,6 @@
                 <span class="en-only">Frequently Asked Questions (FAQ)</span>
             </h2>
             
-            <!-- Q1 -->
             <div class="faq-item">
                 <h3 class="faq-q">
                     <span class="zh-only">Q1：为什么 WindowTo 需要“无障碍”权限？</span>
@@ -778,7 +742,7 @@
                         <ul style="padding-left: 20px; margin: 0 0 10px 0;">
                             <li style="margin-bottom: 8px;"><strong>技术原理：</strong>在 macOS 的安全沙盒（Sandbox）机制下，常规应用程序是完全隔离的，无法获知其他运行中应用（如 Safari、Finder等）的状态，更无法控制它们。WindowTo 需要通过系统的无障碍 API（AXUIElement）来获取当前被拖拽窗口的控制权。</li>
                             <li style="margin-bottom: 8px;"><strong>用途局限：</strong>此权限仅用于识别您正在拖拽的窗口句柄，并在您释放鼠标时向目标应用发送“移动窗口”和“调整大小”的指令。</li>
-                            <li style="margin-bottom: 8px;"><strong>安全承诺：</strong>WindowTo 仅关注窗口的外壳几何坐标（即位置和宽高）。应用没有申请任何输入监控、键盘记录或硬盘写入权限，绝不会读取、记录或传输您窗口内的任何文本、账号密码或输入内容。</li>
+                            <li style="margin-bottom: 8px;"><strong>安全承诺：</strong>WindowTo 仅关注窗口的外壳几何坐标（即位置 and 宽高）。应用没有申请任何输入监控、键盘记录或硬盘写入权限，绝不会读取、记录或传输您窗口内的任何文本、账号密码或输入内容。</li>
                         </ul>
                     </div>
                     <div class="en-only">
@@ -791,7 +755,6 @@
                 </div>
             </div>
 
-            <!-- Q2 -->
             <div class="faq-item">
                 <h3 class="faq-q">
                     <span class="zh-only">Q2：为什么应用有时还会申请“屏幕录制”权限？</span>
@@ -815,7 +778,6 @@
                 </div>
             </div>
 
-            <!-- Q3 -->
             <div class="faq-item">
                 <h3 class="faq-q">
                     <span class="zh-only">Q3：如果我已经授予了权限，但应用依然提示未授权或无法使用，该怎么办？</span>
@@ -840,7 +802,6 @@
                 </div>
             </div>
 
-            <!-- Q4 -->
             <div class="faq-item">
                 <h3 class="faq-q">
                     <span class="zh-only">Q4：运行 WindowTo 有什么系统版本限制？支持 M系列芯片吗？</span>
@@ -862,7 +823,6 @@
                 </div>
             </div>
 
-            <!-- Q5 -->
             <div class="faq-item">
                 <h3 class="faq-q">
                     <span class="zh-only">Q5：WindowTo 经常驻留后台，会对电池续航或系统性能造成影响吗？</span>
@@ -883,7 +843,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
 
         <div class="footer">
@@ -904,7 +863,6 @@
             </div>
         </div>
     </div>
-
 </div>
 
 <nav class="navbar">
@@ -950,7 +908,6 @@
     </button>
     
     <div class="privacy-modal-scroll">
-        <!-- max-width 保持 700px -->
         <div class="privacy-content-wrapper">
             <h1 class="zh-only">WindowTo 隐私政策</h1>
             <h1 class="en-only">WindowTo Privacy Policy</h1>
@@ -1046,11 +1003,9 @@
             <p class="zh-only">随着 macOS 系统版本的更新或应用功能的迭代，我们可能会不时对本隐私政策进行微调。然而，无论功能如何变化，<strong>“本地运行、不收集数据”</strong>的基本原则将始终不发生改变。</p>
             <p class="en-only">We may refine this policy to align with macOS upgrades or feature iterations. Our core principle—<strong>local execution and zero collection</strong>—remains absolute.</p>
             
-            <!-- 反馈提示已完美移至此处 -->
             <p class="privacy-meta zh-only">若您对本隐私政策或 WindowTo 的权限使用有任何疑问、意见或建议，请在主页底部点击“反馈与建议”与我们联系。</p>
             <p class="privacy-meta en-only">For any questions, suggestions, or concerns regarding this policy, please reach out to us via "Feedback & Suggestions" at the bottom of the homepage.</p>
 
-            <!-- 最近更新时间紧密结合（CSS中重置 margin 且 margin-top 设为 4px） -->
             <p class="privacy-meta zh-only" style="margin-top: 4px;">最近更新时间：2026年7月</p>
             <p class="privacy-meta en-only" style="margin-top: 4px;">Last Updated: July 2026</p>
         </div>
@@ -1158,8 +1113,6 @@
         const modal = document.getElementById('privacy-modal');
         if (modal && modal.classList.contains('show')) {
             modal.classList.remove('show');
-            
-            // 完美保留淡出过渡效果：等 0.6 秒渐变动画结束后，再恢复底层的滚动和定位，防止背景突然跳动打断动画
             setTimeout(() => {
                 if (!modal.classList.contains('show')) {
                     document.documentElement.style.scrollBehavior = 'auto';
@@ -1172,7 +1125,6 @@
                     }, 0);
                 }
             }, 600);
-
             const privacyBtn = document.getElementById('nav-link-privacy');
             if (privacyBtn) {
                 privacyBtn.classList.remove('active');
@@ -1272,7 +1224,6 @@
     }
 
     window.addEventListener('hashchange', handleRouting);
-
     initializeLanguage();
 
     window.addEventListener('DOMContentLoaded', () => {
